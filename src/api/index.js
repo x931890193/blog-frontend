@@ -1,0 +1,48 @@
+import axios from 'axios'
+import protobuf from 'protobufjs'
+
+import { Message as Message } from 'element-ui'
+
+const baseURL = process.env.NODE_ENV === 'development' ? 'api' : '/api'
+
+// create an axios instance
+const service = axios.create({
+  baseURL, // url = base url + request url process.env.VUE_APP_BASE_API
+  withCredentials: true, // send cookies when cross-domain requests
+  timeout: 5000, // request timeout
+  headers: {
+    'X-Requested-With': 'XMLHttpRequest',
+    'Content-Type': 'application/x-protobuf'
+  },
+  responseType: 'arraybuffer'
+})
+
+// request interceptor
+service.interceptors.request.use(
+  (config) => {
+    return config
+  },
+  (error) => {
+    // do something with request error
+    console.log(error) // for debug
+    return Promise.reject(error)
+  }
+)
+
+// response interceptor
+service.interceptors.response.use(
+  (response) => {
+    return protobuf.util.newBuffer(response.data)
+  },
+  (error) => {
+    console.log('err' + error) // for debug
+    Message({
+      message: error.message,
+      type: 'error',
+      duration: 5 * 1000
+    })
+    return Promise.reject(error)
+  }
+)
+
+export default service

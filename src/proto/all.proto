@@ -1,0 +1,17 @@
+syntax = "proto3";
+import "google/protobuf/any.proto";
+
+option go_package="../proto";
+package proto;
+
+
+message BaseResponse {
+  uint32 code = 1;
+  string msg = 2;
+  google.protobuf.Any data = 3;
+}
+
+message LoginAdminRequest{
+  string username = 1;
+  string password = 2;
+}
