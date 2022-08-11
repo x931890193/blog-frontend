@@ -22,7 +22,7 @@
               </a>
             </el-tooltip>
             <el-tooltip class="item" effect="dark" content="更多" placement="top">
-              <a href="#/Aboutme">
+              <a href="/Aboutme">
                 <i class="el-icon-more" />
               </a>
             </el-tooltip>
@@ -63,9 +63,7 @@
       <ul>
         <li v-for="(item, index) in browseList" :key="'browseList' + index">
           <a href="javascript:void(0);" @click="goDetail(item.articleId)">
-            {{
-            item.title
-            }}
+            {{ item.title }}
           </a>
           —— {{ item.count }} 次围观
         </li>
@@ -173,7 +171,6 @@ export default {
     },
     async getTopComment() {
       const res = await commentAPI.getTopComment()
-      console.log(res)
       this.artCommentList = res.topCommentList
       this.browseList = res.browseList
       this.likeNum = res.loveCount

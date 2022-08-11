@@ -12,7 +12,7 @@ async function getList(params) {
   })
   const CommentListResp = protoRoot.lookupType('CommentListResp')
   const res = CommentListResp.decode(buf)
-  if (res.code !== 0) {
+  if (res.code) {
     Message({
       message: res.msg || 'Error',
       type: 'error',
@@ -32,7 +32,6 @@ async function add(data) {
       parentId: data.parentId
     })
   ).finish()
-  console.log(CommentAddRequestMessage)
   const blob = new Blob([CommentAddRequestMessage], { type: 'buffer' })
   const buf = await request({
     url: `${PATH}/add`,
@@ -41,8 +40,7 @@ async function add(data) {
   })
   const CommentAddResp = protoRoot.lookupType('CommentAddResp')
   const res = CommentAddResp.decode(buf)
-  console.log(res)
-  if (res.code !== 0) {
+  if (res.code) {
     Message({
       message: res.msg,
       type: 'error',
@@ -69,7 +67,7 @@ async function getTopComment(params) {
   })
   const TopCommentResp = protoRoot.lookupType('TopCommentResp')
   const res = TopCommentResp.decode(buf)
-  if (res.code !== 0) {
+  if (res.code) {
     Message({
       message: res.msg,
       type: 'error',

@@ -1,20 +1,27 @@
 import request from './request'
-const PATH = '/articleCate'
+import protoRoot from '@/proto/proto'
+import { Message as Message } from 'element-ui'
 
-function getList(params) {
-  return request({
-    url: `${PATH}/getList`,
+const PATH = '/article/category'
+
+// 所有分类
+async function getAllList(params) {
+  const buf = await request({
+    url: `${PATH}/list`,
     method: 'get',
     params
   })
-}
-
-function getAllList(params) {
-  return request({
-    url: `${PATH}/getAllList`,
-    method: 'get',
-    params
-  })
+  const AdminCategoryListResp = protoRoot.lookupType('AdminCategoryListResp')
+  const res = AdminCategoryListResp.decode(buf)
+  if (res.code) {
+    Message({
+      message: res.msg || 'Error',
+      type: 'error',
+      duration: 5 * 1000
+    })
+    return Promise.reject(new Error(res.msg || 'Error'))
+  }
+  return res
 }
 
 function getInfo(params) {
@@ -42,7 +49,6 @@ function edit(data) {
 }
 
 export default {
-  getList,
   getAllList,
   getInfo,
   add,

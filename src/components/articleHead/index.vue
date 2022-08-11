@@ -1,5 +1,5 @@
 <template>
-  <!-- 添加文章 -->
+  <!--文章head -->
   <div>
     <span class="s-round-date">
       <span class="month">{{
@@ -9,7 +9,7 @@
     </span>
     <header class="article-head">
       <div class="article-head-title">
-        <a href="javascript:void();" @click="goDetail(item._id)">
+        <a href="javascript:void(0);" @click="goDetail(item.id)">
           {{ item.title }}
         </a>
       </div>

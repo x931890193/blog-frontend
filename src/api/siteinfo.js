@@ -12,7 +12,7 @@ async function getSite() {
   })
   const SiteInfoResp = protoRoot.lookupType('SiteInfoResp')
   const res = SiteInfoResp.decode(buf)
-  if (res.code !== 0) {
+  if (res.code) {
     Message({
       message: res.msg || 'Error',
       type: 'error',
@@ -30,7 +30,7 @@ async function getAbout() {
   })
   const AboutResp = protoRoot.lookupType('AboutResp')
   const res = AboutResp.decode(buf)
-  if (res.code !== 0) {
+  if (res.code) {
     Message({
       message: res.msg || 'Error',
       type: 'error',

@@ -23,7 +23,8 @@ import {
   Link,
   Loading,
   TableColumn,
-  Dialog
+  Dialog,
+  Message as Message
 } from 'element-ui'
 import CollapseTransition from 'element-ui/lib/transitions/collapse-transition'
 // import 'element-ui/lib/theme-chalk/index.css'
@@ -53,6 +54,7 @@ Vue.use(RadioGroup)
 Vue.use(Link)
 Vue.use(TableColumn)
 Vue.use(Dialog)
+Vue.prototype.$message = Message
 
 Vue.prototype.msgSuccess = function(msg) {
   this.$message({showClose: true, message: msg, type: 'success'})

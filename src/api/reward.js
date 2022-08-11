@@ -12,7 +12,7 @@ async function getRewardList() {
   })
   const RewardResp = protoRoot.lookupType('RewardResp')
   const res = RewardResp.decode(buf)
-  if (res.code !== 0) {
+  if (res.code) {
     Message({
       message: res.msg,
       type: 'error',

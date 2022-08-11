@@ -16,9 +16,9 @@ const mutations = {
 const actions = {
   async getActiveCate({ commit }, data) {
     const res = await articleCateAPI.getAllList()
-    commit('CHANGE_SETTING', { key: 'activeCateList', value: res.data })
+    commit('CHANGE_SETTING', { key: 'activeCateList', value: res.rows })
   },
-  async goDetail({ commit }, id) {
+  goDetail({ commit }, id) {
     router.push({
       name: 'Detail',
       params: {

@@ -205,6 +205,7 @@ export default {
   computed: {
     ...mapState('user', ['haslogin'])
   },
+  // eslint-disable-next-line vue/order-in-components
   data() {
     // 选项 / 数据
     return {
@@ -318,7 +319,6 @@ export default {
       }
 
       const res = await commentAPI.getList(options)
-      // console.log('list---data', res.data)
       const { list, pagination } = res
       this.list = initData ? list : this.list.concat(list)
       this.total = this.list.length

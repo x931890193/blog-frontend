@@ -534,6 +534,10 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
             rule: "repeated",
             type: "uint32",
             id: 14
+          },
+          title: {
+            type: "string",
+            id: 15
           }
         }
       },
@@ -555,6 +559,22 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
           pagination: {
             type: "Pagination",
             id: 4
+          }
+        }
+      },
+      ArticleOneResp: {
+        fields: {
+          code: {
+            type: "uint32",
+            id: 1
+          },
+          msg: {
+            type: "string",
+            id: 2
+          },
+          obj: {
+            type: "Article",
+            id: 3
           }
         }
       },
@@ -897,6 +917,63 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
                 id: 10
               }
             }
+          }
+        }
+      },
+      AdminArticleOneResp: {
+        fields: {
+          code: {
+            type: "uint32",
+            id: 1
+          },
+          msg: {
+            type: "string",
+            id: 2
+          },
+          title: {
+            type: "string",
+            id: 3
+          },
+          summary: {
+            type: "string",
+            id: 4
+          },
+          categoryId: {
+            type: "uint32",
+            id: 5
+          },
+          support: {
+            type: "bool",
+            id: 6
+          },
+          comment: {
+            type: "bool",
+            id: 7
+          },
+          headerImgType: {
+            type: "uint32",
+            id: 8
+          },
+          headerImg: {
+            type: "string",
+            id: 9
+          },
+          weight: {
+            type: "uint32",
+            id: 10
+          },
+          tagTitleList: {
+            rule: "repeated",
+            type: "string",
+            id: 11
+          },
+          content: {
+            type: "string",
+            id: 12
+          },
+          id: {
+            type: "uint32",
+            id: 13
           }
         }
       }

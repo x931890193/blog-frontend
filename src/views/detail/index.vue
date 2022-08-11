@@ -145,9 +145,8 @@ export default {
     },
     async getInfo(id) {
       const res = await articleAPI.getInfo({ id })
-      // console.log('articleAPI.info---res', res)
-
-      this.detailObj = cloneDeep(res.data)
+      console.log(res)
+      this.detailObj = cloneDeep(res.obj)
       this.content = this.detailObj.content
       if (this.haslogin) {
         const likeRes = await likeAPI.getInfo({ id })
@@ -166,6 +165,7 @@ export default {
     async routeChange() {
       this.loadingInstance = this.$loading({ target: this.$refs.loading })
       this.id = this.$route.params.id
+      console.log(this.$route)
       await this.getInfo(this.id)
     }
   }
@@ -173,64 +173,6 @@ export default {
 </script>
 
 <style lang="less">
-// .detailBox .article-content {
-//   font-size: 15px;
-//   white-space: normal;
-//   word-wrap: break-word;
-//   word-break: break-all;
-//   overflow-x: hidden;
-// }
-// .detailBox .article-content p {
-//   margin: 10px 0;
-//   line-height: 24px;
-//   word-wrap: break-word;
-//   word-break: break-all;
-//   overflow-x: hidden;
-// }
-// .detailBox .article-content pre {
-//   word-wrap: break-word;
-//   word-break: break-all;
-//   overflow-x: hidden;
-// }
-// .detailBox .article-content img {
-//   max-width: 100% !important;
-//   height: auto !important;
-//   overflow-x: hidden;
-// }
-// .detailBox .article-content a {
-//   color: #df2050 !important;
-// }
-// .detailBox .article-content a:hover {
-//   text-decoration: underline;
-//   color: #f00 !important;
-// }
-// .detailBox .article-content i {
-//   font-style: italic;
-// }
-// .detailBox .article-content strong {
-//   font-weight: bold;
-// }
-// .detailBox .article-content ul {
-//   list-style-type: disc !important;
-//   list-style: disc !important;
-//   padding-left: 40px !important;
-//   li {
-//     list-style-type: disc !important;
-//     list-style: disc !important;
-//   }
-// }
-// .detailBox .article-content h1,
-// .detailBox .article-content h2,
-// .detailBox .article-content h3 {
-//   font-size: 200%;
-//   font-weight: bold;
-// }
-// .detailBox .article-content h4,
-// .detailBox .article-content h5,
-// .detailBox .article-content h6 {
-//   font-size: 150%;
-//   font-weight: bold;
-// }
 .detailBox .viewdetail {
   margin: 10px 0;
   line-height: 24px;

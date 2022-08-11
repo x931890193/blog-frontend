@@ -5,21 +5,8 @@
       <articleHead :item="item" />
       <div class="article-content-list" @click="goDetail(item._id)">
         <Content :content="item.content" />
-        <!-- <div class="article-description" >
-          {{ item.description }}
-        </div>-->
-        <!-- <div class="article-img">
-          <img :src="item.image"
-               alt=""
-               class="maxW">
-        </div>-->
       </div>
       <div class="viewdetail">
-        <!-- <a class="tcolors-bg"
-           @click="goDetail(item._id)">
-          阅读全文
-          <i class="el-icon-d-arrow-right" />
-        </a>-->
         <AButton icon="el-icon-d-arrow-right" @click="goDetail(item._id)">阅读全文</AButton>
       </div>
     </el-col>
@@ -51,6 +38,7 @@ export default {
     Content,
     AButton
   },
+  // eslint-disable-next-line vue/require-prop-types
   props: ['type'],
   data() {
     // 选项 / 数据
@@ -87,8 +75,7 @@ export default {
         currentPage: this.current
       }
       const res = await articleAPI.getList(options)
-      // console.log('list---data', res.data, options)
-      const { list, pagination } = res.data
+      const { list, pagination } = res
       this.list = list
       this.total = pagination.total
       this.totalPage = pagination.totalPage
@@ -97,19 +84,17 @@ export default {
       // this.loadingInstance && this.loadingInstance.close()
     },
 
-    handleCurrentChange(val) {
+    async handleCurrentChange(val) {
       this.current = val
-      this.getList()
+      await this.getList()
     },
 
     async routeChange() {
       // this.loadingInstance = this.$loading({ target: this.$refs.article })
       const { keywords } = this.$route.query
-
       this.keywords = keywords
       this.like = this.type === 'like' ? 1 : 0
       this.collect = this.type === 'collect' ? 1 : 0
-      // console.log('this.like', this.like, this.collect, this.type)
       await this.getList()
     }
   }
