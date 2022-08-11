@@ -94,12 +94,8 @@ const OwOlist = [
 const userTag = ['天然呆', '小萌新', '学霸', '萌萌哒', '技术宅', '忠实粉']
 const projectList = [
   {
-    nav_url: './static/img/meishi.jpg',
-    nav_name: '美食美荟小程序'
-  },
-  {
     nav_url: 'http://resume.mongona.com/',
-    nav_name: 'resume'
+    nav_name: '简历'
   }
 ]
 const loginType = {

@@ -402,10 +402,8 @@ const Typeit = (emId) => {
             prevChar：前一个字符。
             speech：所有的speech。
          ***/
-  var world = 'Aimee'
-
+  var world = 'Life is a fucking movie！'
   theater.describe('Luke', 0.9, emId)
-  // conosle.log()
   theater
     .on('*', function (eventName, originalEvent, sceneName, arg) {
       // 做点什么
@@ -422,11 +420,9 @@ const Typeit = (emId) => {
       var current = self.current.voice
       self.utils.removeClass(current, 'saying')
     })
-
   theater
     .write('Luke:Hello!', 1000)
-    //                .write("Vader:I am your father.", toggleClass)
-    .write('Luke:Hi,' + world, 500)
+    .write('Luke:' + world, 500)
     .write({ name: 'call', args: [kill, true] })
     .write(function () {
       theater.play(true)

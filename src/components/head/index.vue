@@ -65,6 +65,7 @@ import { loginType } from '@/utils/constants'
 import AButton from '@/components/abutton'
 export default {
   name: 'Head',
+  timer: undefined,
   components: {
     H5Head,
     PCHead,
@@ -96,10 +97,14 @@ export default {
   },
   mounted() {
     // 页面元素加载完成
-    const timer = setTimeout(() => {
+    Typeit('#luke')
+    this.timer = setInterval(() => {
       Typeit('#luke') // 打字机效果
-      clearTimeout(timer)
-    }, 500)
+      // clearTimeout(timer)
+    }, 10000)
+  },
+  destroyed() {
+    clearTimeout(this.timer)
   },
   methods: {
     ...mapActions('user', ['getInfo', 'login', 'logout']),
@@ -146,10 +151,10 @@ export default {
         'hidden' in document
           ? 'hidden'
           : 'webkitHidden' in document
-          ? 'webkitHidden'
-          : 'mozHidden' in document
-          ? 'mozHidden'
-          : null
+            ? 'webkitHidden'
+            : 'mozHidden' in document
+              ? 'mozHidden'
+              : null
       var visibilityChangeEvent = hiddenProperty.replace(
         /hidden/i,
         'visibilitychange'
@@ -202,7 +207,7 @@ export default {
   width: 70%;
   margin: auto;
   position: relative;
-  top: 498px;
+  top: 430px;
   padding: 40px 0;
   font-size: 16px;
   opacity: 0.98;

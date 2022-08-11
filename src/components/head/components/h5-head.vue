@@ -5,13 +5,13 @@
       <i class="el-icon-menu" @click="pMenu = !pMenu" />
       <el-collapse-transition>
         <el-menu
-          v-show="!pMenu"
+          v-show="pMenu"
           :default-active="activeIndex"
           class="mlistmenu"
           :unique-opened="true"
           :router="true"
         >
-          <el-menu-item index="/">
+          <el-menu-item index="/" @click="pMenu = !pMenu">
             <i class="fa fa-wa fa-home" /> 首页
           </el-menu-item>
           <el-submenu index="2">
@@ -26,33 +26,29 @@
               <a :href="item.nav_url" target="_blank">{{ item.nav_name }}</a>
             </el-menu-item>
           </el-submenu>
-          <el-menu-item index="/archive">
+          <el-menu-item index="/archive" @click="pMenu = !pMenu">
             <i class="fa fa-wa fa-archive" /> 归档
           </el-menu-item>
-          <el-menu-item index="/reward">
+          <el-menu-item index="/reward" @click="pMenu = !pMenu">
             <i class="fa fa-wa fa-cny" /> 赞赏
           </el-menu-item>
-          <el-menu-item index="/friendslink">
+          <el-menu-item index="/friendslink" @click="pMenu = !pMenu">
             <i class="fa fa-wa fa-users" /> 伙伴
           </el-menu-item>
-          <el-menu-item index="/message">
+          <el-menu-item index="/message" @click="pMenu = !pMenu">
             <i class="fa fa-wa fa-pencil" /> 留言板
           </el-menu-item>
-          <el-menu-item index="/aboutme">
+          <el-menu-item index="/aboutme" @click="pMenu = !pMenu">
             <i class="fa fa-wa fa-vcard" /> 关于
           </el-menu-item>
-          <el-menu-item v-show="!haslogin" index @click="logoinFun(1)"
-            >登录</el-menu-item
-          >
+          <el-menu-item v-show="!haslogin" index @click="logoinFun(1)">登录</el-menu-item>
           <el-submenu v-show="haslogin" index="3">
             <template slot="title">
               <i class="fa fa-wa fa-user-circle-o" /> 我的
             </template>
             <el-menu-item index="/user">个人中心</el-menu-item>
             <el-menu-item index="/likeCollect?like=1">喜欢的文章</el-menu-item>
-            <el-menu-item index="/likeCollect?collect=1"
-              >收藏的文章</el-menu-item
-            >
+            <el-menu-item index="/likeCollect?collect=1">收藏的文章</el-menu-item>
             <el-menu-item index @click="userlogout">退出登录</el-menu-item>
           </el-submenu>
         </el-menu>
