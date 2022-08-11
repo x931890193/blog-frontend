@@ -14,6 +14,14 @@
             "password": {
               "type": "string",
               "id": 2
+            },
+            "code": {
+              "type": "string",
+              "id": 3
+            },
+            "id": {
+              "type": "string",
+              "id": 4
             }
           }
         },
@@ -163,6 +171,22 @@
             "parentUsername": {
               "type": "string",
               "id": 8
+            },
+            "ip": {
+              "type": "string",
+              "id": 9
+            },
+            "ua": {
+              "type": "string",
+              "id": 10
+            },
+            "location": {
+              "type": "string",
+              "id": 11
+            },
+            "os": {
+              "type": "string",
+              "id": 12
             }
           }
         },
@@ -526,6 +550,348 @@
             "pagination": {
               "type": "Pagination",
               "id": 4
+            }
+          }
+        },
+        "CaptchaResp": {
+          "fields": {
+            "code": {
+              "type": "uint32",
+              "id": 1
+            },
+            "msg": {
+              "type": "string",
+              "id": 2
+            },
+            "id": {
+              "type": "string",
+              "id": 3
+            },
+            "img": {
+              "type": "string",
+              "id": 4
+            }
+          }
+        },
+        "ComponentMeta": {
+          "fields": {
+            "title": {
+              "type": "string",
+              "id": 1
+            },
+            "name": {
+              "type": "string",
+              "id": 2
+            },
+            "icon": {
+              "type": "string",
+              "id": 3
+            },
+            "noCache": {
+              "type": "bool",
+              "id": 4
+            },
+            "affix": {
+              "type": "bool",
+              "id": 5
+            },
+            "activeMenu": {
+              "type": "string",
+              "id": 6
+            }
+          }
+        },
+        "Component": {
+          "fields": {
+            "component": {
+              "type": "string",
+              "id": 1
+            },
+            "path": {
+              "type": "string",
+              "id": 3
+            },
+            "name": {
+              "type": "string",
+              "id": 4
+            },
+            "meta": {
+              "type": "ComponentMeta",
+              "id": 5
+            },
+            "hidden": {
+              "type": "bool",
+              "id": 6
+            },
+            "children": {
+              "rule": "repeated",
+              "type": "Component",
+              "id": 7
+            }
+          }
+        },
+        "AdminRouterResp": {
+          "fields": {
+            "code": {
+              "type": "uint32",
+              "id": 1
+            },
+            "msg": {
+              "type": "string",
+              "id": 2
+            },
+            "data": {
+              "rule": "repeated",
+              "type": "Component",
+              "id": 3
+            }
+          }
+        },
+        "AdminCategoryAddRequest": {
+          "fields": {
+            "title": {
+              "type": "string",
+              "id": 1
+            },
+            "description": {
+              "type": "string",
+              "id": 2
+            },
+            "support": {
+              "type": "bool",
+              "id": 3
+            }
+          }
+        },
+        "AdminCategoryAddResp": {
+          "fields": {
+            "code": {
+              "type": "uint32",
+              "id": 1
+            },
+            "msg": {
+              "type": "string",
+              "id": 2
+            }
+          }
+        },
+        "AdminCategoryListResp": {
+          "fields": {
+            "code": {
+              "type": "uint32",
+              "id": 1
+            },
+            "msg": {
+              "type": "string",
+              "id": 2
+            },
+            "total": {
+              "type": "uint32",
+              "id": 3
+            },
+            "rows": {
+              "rule": "repeated",
+              "type": "categoryBase",
+              "id": 4
+            }
+          },
+          "nested": {
+            "blogBase": {
+              "fields": {
+                "title": {
+                  "type": "string",
+                  "id": 1
+                },
+                "summary": {
+                  "type": "string",
+                  "id": 2
+                },
+                "headerImg": {
+                  "type": "string",
+                  "id": 3
+                },
+                "comment": {
+                  "type": "string",
+                  "id": 4
+                },
+                "weight": {
+                  "type": "uint32",
+                  "id": 5
+                },
+                "support": {
+                  "type": "bool",
+                  "id": 6
+                },
+                "createTime": {
+                  "type": "string",
+                  "id": 7
+                }
+              }
+            },
+            "categoryBase": {
+              "fields": {
+                "title": {
+                  "type": "string",
+                  "id": 1
+                },
+                "description": {
+                  "type": "string",
+                  "id": 2
+                },
+                "createTime": {
+                  "type": "string",
+                  "id": 3
+                },
+                "support": {
+                  "type": "bool",
+                  "id": 4
+                },
+                "blogList": {
+                  "rule": "repeated",
+                  "type": "blogBase",
+                  "id": 5
+                },
+                "id": {
+                  "type": "uint32",
+                  "id": 6
+                }
+              }
+            }
+          }
+        },
+        "AdminArticleAddRequest": {
+          "fields": {
+            "title": {
+              "type": "string",
+              "id": 1
+            },
+            "summary": {
+              "type": "string",
+              "id": 2
+            },
+            "categoryId": {
+              "type": "uint32",
+              "id": 3
+            },
+            "support": {
+              "type": "bool",
+              "id": 4
+            },
+            "comment": {
+              "type": "bool",
+              "id": 5
+            },
+            "headerImgType": {
+              "type": "uint32",
+              "id": 6
+            },
+            "headerImg": {
+              "type": "string",
+              "id": 7
+            },
+            "weight": {
+              "type": "uint32",
+              "id": 8
+            },
+            "tagTitleList": {
+              "rule": "repeated",
+              "type": "string",
+              "id": 9
+            },
+            "content": {
+              "type": "string",
+              "id": 10
+            }
+          }
+        },
+        "AdminArticleAddResp": {
+          "fields": {
+            "code": {
+              "type": "uint32",
+              "id": 1
+            },
+            "msg": {
+              "type": "string",
+              "id": 2
+            }
+          }
+        },
+        "AdminArticleListResp": {
+          "fields": {
+            "code": {
+              "type": "uint32",
+              "id": 1
+            },
+            "msg": {
+              "type": "string",
+              "id": 2
+            },
+            "total": {
+              "type": "uint32",
+              "id": 3
+            },
+            "rows": {
+              "rule": "repeated",
+              "type": "adminArticleListBase",
+              "id": 4
+            }
+          },
+          "nested": {
+            "adminArticleListCategory": {
+              "fields": {
+                "title": {
+                  "type": "string",
+                  "id": 1
+                },
+                "description": {
+                  "type": "string",
+                  "id": 2
+                }
+              }
+            },
+            "adminArticleListBase": {
+              "fields": {
+                "title": {
+                  "type": "string",
+                  "id": 1
+                },
+                "summary": {
+                  "type": "string",
+                  "id": 2
+                },
+                "headerImg": {
+                  "type": "string",
+                  "id": 3
+                },
+                "comment": {
+                  "type": "bool",
+                  "id": 4
+                },
+                "weight": {
+                  "type": "uint32",
+                  "id": 5
+                },
+                "support": {
+                  "type": "bool",
+                  "id": 6
+                },
+                "createTime": {
+                  "type": "string",
+                  "id": 7
+                },
+                "id": {
+                  "type": "uint32",
+                  "id": 8
+                },
+                "status": {
+                  "type": "bool",
+                  "id": 9
+                },
+                "category": {
+                  "type": "adminArticleListCategory",
+                  "id": 10
+                }
+              }
             }
           }
         }

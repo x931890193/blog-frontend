@@ -72,10 +72,7 @@ export default {
   text-align: center;
   width: 100%;
   min-height: 50px;
-  // margin-top: -100px;
   position: relative;
-  // position: absolute;
-  /*min-height: 368px;*/
 }
 
 .footBack .fcontainer {
@@ -87,7 +84,6 @@ export default {
   padding: 15px 10px 10px 10px;
   box-sizing: border-box;
   /*z-index: 1;*/
-  width: 100% !important;
 }
 
 .footBack p {

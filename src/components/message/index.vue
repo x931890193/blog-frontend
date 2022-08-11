@@ -65,8 +65,11 @@
                 <div v-show="item.label" class="i-class">
                   {{ item.label }}
                 </div>
+                <div v-show="item.os" class="i-class">{{ item.os }}</div>
+                <div v-show="item.ua" class="i-class">{{ item.ua }}</div>
+                <div v-show="item.ip" class="i-class">{{ item.ip }}</div>
                 <div class="i-time">
-                  <time>{{ initDate(item.createDate) }}</time>
+                  <time>{{ initDate(item.createDate) }}  </time>
                 </div>
               </header>
               <section>

@@ -1,4 +1,4 @@
-import request from './index'
+import request from './request'
 import protoRoot from '@/proto/proto'
 
 import { Message as Message } from 'element-ui'

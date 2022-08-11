@@ -23,7 +23,6 @@ import {
   Link,
   Loading,
   TableColumn,
-  Message,
   Dialog
 } from 'element-ui'
 import CollapseTransition from 'element-ui/lib/transitions/collapse-transition'
@@ -54,7 +53,22 @@ Vue.use(RadioGroup)
 Vue.use(Link)
 Vue.use(TableColumn)
 Vue.use(Dialog)
-Vue.prototype.$message = Message
+
+Vue.prototype.msgSuccess = function(msg) {
+  this.$message({showClose: true, message: msg, type: 'success'})
+}
+
+Vue.prototype.msgError = function(msg) {
+  this.$message({showClose: true, message: msg, type: 'error'})
+}
+
+Vue.prototype.msgWarning = function(msg) {
+  this.$message({showClose: true, message: msg, type: 'warning'})
+}
+
+Vue.prototype.msgInfo = function(msg) {
+  this.$message.info(msg)
+}
 Vue.prototype.$loading = Loading.service
 
 Vue.component(CollapseTransition.name, CollapseTransition)

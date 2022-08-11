@@ -2,6 +2,7 @@ import axios from 'axios'
 import protobuf from 'protobufjs'
 
 import { Message as Message } from 'element-ui'
+import { getToken } from '@/utils/auth'
 
 const baseURL = process.env.NODE_ENV === 'development' ? 'api' : '/api'
 
@@ -20,11 +21,19 @@ const service = axios.create({
 // request interceptor
 service.interceptors.request.use(
   (config) => {
+    if (getToken()) {
+      config.headers['Authorization'] = 'Bearer ' + getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
+    }
     return config
   },
   (error) => {
     // do something with request error
     console.log(error) // for debug
+    Message({
+      message: error.message,
+      type: 'error',
+      duration: 5 * 1000
+    })
     return Promise.reject(error)
   }
 )

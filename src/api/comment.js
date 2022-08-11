@@ -1,4 +1,4 @@
-import request from './index'
+import request from './request'
 import protoRoot from '@/proto/proto'
 import { Message as Message } from 'element-ui'
 
@@ -24,7 +24,6 @@ async function getList(params) {
 }
 
 async function add(data) {
-  console.log(data)
   const CommentAddRequest = protoRoot.lookupType('CommentAddRequest')
   const CommentAddRequestMessage = CommentAddRequest.encode(
     CommentAddRequest.create({

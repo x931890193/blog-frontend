@@ -1,4 +1,4 @@
-import request from './index'
+import request from './request'
 const PATH = '/user'
 
 function login() {
