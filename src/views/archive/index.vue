@@ -5,9 +5,7 @@
     <ul class="archive-class-all">
       <li v-for="item in classList" :key="item._id" :class="item._id === classId ? 'class-selected' : ''">
         <a href="javascript:void(0);" @click="goClassList(item._id)">
-          {{
-            item.name
-          }}
+          {{ item.name }}
         </a>
         <span>（{{ item.count }}）</span>
       </li>
@@ -21,23 +19,19 @@
           item._id === tagsId && 'archive-class-children-item-selected'
         ]"
       >
-        <a href="javascript:void(0);" @click="goClassListChildren(item._id)">
-          {{
-            item.name
-          }}
+        <a @click="goClassListChildren(item._id)">
+          {{ item.name }}
         </a>
       </div>
     </div>
     <div v-for="item in articleList" :key="item.year" class="article-time">
       <div class="archive-class-title">{{ item.year }}</div>
       <el-timeline>
-        <el-timeline-item v-for="a in item.list" :key="a._id" class="archive-class-item-box" :hide-timestamp="true">
+        <el-timeline-item v-for="i in item.list" :key="i._id" class="archive-class-item-box" :hide-timestamp="true">
           <span class="archive-class-item-time">
-            {{
-              getTimeLine(a.createDate)
-            }}
+            {{ getTimeLine(i.createDate) }}
           </span>
-          <a class="archive-class-item-title" href="javascript:void(0);" @click="goDetail(a._id)">{{ a.title }}</a>
+          <a class="archive-class-item-title" @click="goDetail(i._id)">{{ i.title }}</a>
         </el-timeline-item>
       </el-timeline>
     </div>
@@ -70,15 +64,14 @@ export default {
     getTimeLine,
     async getAllList(classId, tagsId) {
       const res = await articleAPI.getListByClass({ classId, tagsId })
-      this.classList = res.data.classList
-      this.articleList = res.data.articleList.sort((a, b) => b.year - a.year)
-      this.tags = res.data.tags
-      // console.log('res--', res)
+      this.classList = res.classList
+      this.articleList = res.articleList.sort((a, b) => b.year - a.year)
+      this.tags = res.tags
     },
     async goClassList(id) {
       this.classId = id
       await this.getAllList(id, null)
-      this.$router.push({
+      await this.$router.push({
         name: 'Archive',
         query: {
           classId: id

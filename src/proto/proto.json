@@ -971,6 +971,92 @@
               "id": 13
             }
           }
+        },
+        "Tags": {
+          "fields": {
+            "_id": {
+              "type": "uint32",
+              "id": 1
+            },
+            "name": {
+              "type": "string",
+              "id": 2
+            }
+          }
+        },
+        "ListByClassResp": {
+          "fields": {
+            "code": {
+              "type": "uint32",
+              "id": 1
+            },
+            "msg": {
+              "type": "string",
+              "id": 2
+            },
+            "classList": {
+              "rule": "repeated",
+              "type": "ClassList",
+              "id": 3
+            },
+            "articleList": {
+              "rule": "repeated",
+              "type": "ArticleList",
+              "id": 4
+            },
+            "tags": {
+              "rule": "repeated",
+              "type": "Tags",
+              "id": 5
+            }
+          },
+          "nested": {
+            "List": {
+              "fields": {
+                "_id": {
+                  "type": "uint32",
+                  "id": 1
+                },
+                "createDate": {
+                  "type": "string",
+                  "id": 2
+                },
+                "title": {
+                  "type": "string",
+                  "id": 3
+                }
+              }
+            },
+            "ClassList": {
+              "fields": {
+                "_id": {
+                  "type": "uint32",
+                  "id": 1
+                },
+                "name": {
+                  "type": "string",
+                  "id": 2
+                },
+                "count": {
+                  "type": "uint32",
+                  "id": 3
+                }
+              }
+            },
+            "ArticleList": {
+              "fields": {
+                "year": {
+                  "type": "uint32",
+                  "id": 1
+                },
+                "list": {
+                  "rule": "repeated",
+                  "type": "List",
+                  "id": 2
+                }
+              }
+            }
+          }
         }
       }
     }

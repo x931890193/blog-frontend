@@ -62,7 +62,7 @@
       <h2 class="ui label">大家都排队来看这些</h2>
       <ul>
         <li v-for="(item, index) in browseList" :key="'browseList' + index">
-          <a href="javascript:void(0);" @click="goDetail(item.articleId)">
+          <a @click="gotoDetail(item.articleId)">
             {{ item.title }}
           </a>
           —— {{ item.count }} 次围观
@@ -143,6 +143,11 @@ export default {
           }
         }, 50)
       )
+    },
+    gotoDetail(id) {
+      if (this.$route.params.id !== id) {
+        this.goDetail(id)
+      }
     },
     toTopfun() {
       this.gotoTop = false

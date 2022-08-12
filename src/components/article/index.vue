@@ -10,7 +10,7 @@
         <AButton icon="el-icon-d-arrow-right" @click="goDetail(item._id)">阅读全文</AButton>
       </div>
     </el-col>
-    <el-col v-if="!listLoading" class="tcommonBox">
+    <el-col v-if="listLoading" class="tcommonBox">
       <el-pagination
         class="pagination-list"
         background
@@ -80,7 +80,8 @@ export default {
       this.total = pagination.total
       this.totalPage = pagination.totalPage
       this.current = pagination.currentPage
-      this.listLoading = false
+      this.listLoading = pagination.totalPage > pagination.currentPage
+      console.log(pagination)
       // this.loadingInstance && this.loadingInstance.close()
     },
 

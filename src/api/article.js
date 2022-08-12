@@ -23,12 +23,25 @@ async function getList(params) {
 }
 
 async function getListByClass(params) {
-  return request({
+  const buf = await request({
     url: `${PATH}/getListByClass`,
     method: 'get',
     params
   })
+  const ListByClassResp = protoRoot.lookupType('ListByClassResp')
+  const res = ListByClassResp.decode(buf)
+  if (res.code) {
+    Message({
+      message: res.msg,
+      type: 'error',
+      duration: 5 * 1000
+    })
+    return Promise.reject(new Error(res.msg || 'Error'))
+  }
+  console.log(res)
+  return res
 }
+
 async function getInfo(params) {
   const buf = await request({
     url: `${PATH}/getInfo`,

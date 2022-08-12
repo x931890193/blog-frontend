@@ -6,7 +6,7 @@ import { Message as Message } from 'element-ui'
 const PATH = '/resource'
 
 async function getSite() {
-  const buf = request({
+  const buf = await request({
     url: `${PATH}/site_info`,
     method: 'get'
   })

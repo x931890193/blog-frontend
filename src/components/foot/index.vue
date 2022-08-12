@@ -7,7 +7,7 @@
         <span class="timeJump">(●'◡'●)ﾉ♥</span>
       </p>
       <p>
-        <a :urn.camel="github" target="_blank">GitHub</a>.
+        <a :href="github" target="_blank">GitHub</a>.
         Theme By
         <a href="https://www.mangoya.cn/#/" target="_blank">Aimee1608</a>.
       </p>

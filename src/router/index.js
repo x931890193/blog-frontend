@@ -6,8 +6,14 @@ const router = new Router({
   mode: 'hash',
   scrollBehavior: (to, from, savedPosition) => {
     // console.log('to, from, savedPosition', to, from, savedPosition)
-    return {
-      y: 0
+    if (to.name === 'Detail' || to.name === 'Home') {
+      return {
+        y: 0
+      }
+    } else {
+      return {
+        y: 670
+      }
     }
   },
   routes: [
