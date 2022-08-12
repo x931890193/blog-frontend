@@ -9,7 +9,7 @@
     </span>
     <header class="article-head">
       <div class="article-head-title">
-        <a href="javascript:void(0);" @click="goDetail(item.id)">
+        <a @click="goDetail(item._id)">
           {{ item.title }}
         </a>
       </div>

@@ -1,30 +1,13 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-// import detail from '@/views/detail/index'
-// import home from '@/views/home/index'
-// import friendslink from '@/views/friendslink/index'
-// import archive from '@/views/archive/index'
-// import aboutme from '@/views/aboutme/index'
-// import reward from '@/views/reward/index'
-// import user from '@/views/user/index'
-// import likeCollect from '@/views/likeCollect'
-// import message from '@/views/message'
-
 Vue.use(Router)
-let savedPosition = false
-export default new Router({
+
+const router = new Router({
   mode: 'hash',
-  scrollBehavior: (to, from) => {
+  scrollBehavior: (to, from, savedPosition) => {
     // console.log('to, from, savedPosition', to, from, savedPosition)
-    if (savedPosition) {
-      return {
-        y: 670
-      }
-    } else {
-      savedPosition = true
-      return {
-        y: 0
-      }
+    return {
+      y: 0
     }
   },
   routes: [
@@ -107,3 +90,4 @@ export default new Router({
     }
   ]
 })
+export default router

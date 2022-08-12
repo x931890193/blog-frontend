@@ -145,7 +145,6 @@ export default {
     },
     async getInfo(id) {
       const res = await articleAPI.getInfo({ id })
-      console.log(res)
       this.detailObj = cloneDeep(res.obj)
       this.content = this.detailObj.content
       if (this.haslogin) {
@@ -165,7 +164,6 @@ export default {
     async routeChange() {
       this.loadingInstance = this.$loading({ target: this.$refs.loading })
       this.id = this.$route.params.id
-      console.log(this.$route)
       await this.getInfo(this.id)
     }
   }
