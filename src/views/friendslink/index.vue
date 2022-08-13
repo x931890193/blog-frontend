@@ -10,10 +10,10 @@
           :span="12"
           class="tf-item"
         >
-          <a :href="item.webBlog" target="_blank">
-            <HeadImg :src="item.webBlogIcon" />
-            <h4>{{ item.webBlogName }}</h4>
-            <p>{{ item.webBlogDesc }}</p>
+          <a :href="item.url" target="_blank">
+            <HeadImg :src="item.headerImg" />
+            <h4>{{ item.title }}</h4>
+            <p>{{ item.description }}</p>
           </a>
         </el-col>
       </el-row>
@@ -43,8 +43,8 @@ export default {
   methods: {
     // 事件处理器
     async getList() {
-      const res = await userAPI.getWebBlogUser()
-      this.friendslink = res.data
+      const res = await userAPI.getLinkList()
+      this.friendslink = res.rows
     }
   }
 }

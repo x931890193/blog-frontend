@@ -1,4 +1,7 @@
 import request from './request'
+import protoRoot from '@/proto/proto'
+import { Message as Message } from 'element-ui'
+
 const PATH = '/user'
 
 function login() {
@@ -28,6 +31,7 @@ function getWebBlogUser() {
     method: 'get'
   })
 }
+
 function edit(data) {
   return request({
     url: `${PATH}/edit`,
@@ -36,10 +40,28 @@ function edit(data) {
   })
 }
 
+async function getLinkList() {
+  const buf = await request({
+    url: `link/list`,
+    method: 'get'
+  })
+  const LinkListResp = protoRoot.lookupType('LinkListResp')
+  const res = LinkListResp.decode(buf)
+  if (res.code) {
+    Message({
+      message: res.msg,
+      type: 'error',
+      duration: 5 * 1000
+    })
+    return Promise.reject(new Error(res.msg || 'Error'))
+  }
+  return res
+}
 export default {
   login,
   logout,
   getInfo,
   edit,
-  getWebBlogUser
+  getWebBlogUser,
+  getLinkList
 }
