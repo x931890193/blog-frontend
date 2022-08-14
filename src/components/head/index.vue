@@ -11,7 +11,7 @@
             :haslogin="haslogin"
             @searchEnterFun="searchEnterFun"
             @searchChangeFun="searchChangeFun"
-            @logoinFun="logoinFun"
+            @logoinFun="login"
             @goHandle="goHandle"
             @userlogout="userlogout"
           />
@@ -23,19 +23,12 @@
             :haslogin="haslogin"
             @searchEnterFun="searchEnterFun"
             @searchChangeFun="searchChangeFun"
-            @logoinFun="logoinFun"
+            @logoinFun="login"
             @userlogout="userlogout"
           />
         </el-col>
       </el-row>
     </div>
-    <el-dialog title="登录说明" :visible.sync="showLoginModal" width="50%" center class="login-dialog">
-      <div>本博客支持github 和 微博授权登录，仅获取对外开放的用户信息</div>
-      <div slot="footer" class="dialog-footer">
-        <AButton @click="useLogin(false)">github授权</AButton>
-        <AButton @click="useLogin(true)">新浪微博授权</AButton>
-      </div>
-    </el-dialog>
     <div class="headImgBox">
       <div class="scene">
         <div>
@@ -61,22 +54,19 @@ import H5Head from './components/h5-head.vue'
 import PCHead from './components/pc-head.vue'
 import { projectList } from '@/utils/constants'
 import Typeit from '@/utils/Typeit'
-import { loginType } from '@/utils/constants'
-import AButton from '@/components/abutton'
+
 export default {
   name: 'Head',
   timer: undefined,
   components: {
     H5Head,
-    PCHead,
-    AButton
+    PCHead
   },
   data() {
     return {
       activeIndex: '/',
       projectList,
       searchkey: '',
-      showLoginModal: false,
       pMenu: true // 手机端菜单打开
     }
   },
@@ -129,10 +119,7 @@ export default {
       }
     },
     logoinFun() {
-      this.showLoginModal = true
-    },
-    useLogin(isWeibo) {
-      this.login(!isWeibo ? loginType.GITHUB : loginType.WEIBO)
+      this.login()
     },
     async userlogout() {
       MessageBox.confirm('是否确认退出?', '退出提示', {

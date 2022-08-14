@@ -41,7 +41,7 @@
           <el-menu-item index="/aboutme" @click="pMenu = !pMenu">
             <i class="fa fa-wa fa-vcard" /> 关于
           </el-menu-item>
-          <el-menu-item v-show="!haslogin" index @click="logoinFun(1)">登录</el-menu-item>
+          <el-menu-item v-show="!haslogin" index @click="logoinFun">登录</el-menu-item>
           <el-submenu v-show="haslogin" index="3">
             <template slot="title">
               <i class="fa fa-wa fa-user-circle-o" /> 我的
@@ -74,6 +74,7 @@
 export default {
   name: 'H5Head',
   components: {},
+  // eslint-disable-next-line vue/require-prop-types
   props: ['activeIndex', 'classList', 'projectList', 'haslogin'],
   data() {
     return {

@@ -157,31 +157,6 @@ export default {
       that.emailErr = !reg.test(that.email);
       that.passwordErr = !(that.password && preg.test(that.password));
       if (!that.emailErr && !that.passwordErr) {
-        // UserLogin(that.email, that.password, function (msg) {
-        //   // console.log(msg);
-        //   if (msg.code == 1010) {//登录成功
-        //     localStorage.setItem('userInfo', JSON.stringify(msg.data));
-        //     localStorage.setItem('accessToken', msg.token);
-        //     if (localStorage.getItem('logUrl')) {
-        //       that.$router.push({ path: localStorage.getItem('logUrl') });
-        //     } else {
-        //       that.$router.push({ path: '/' });
-        //     }
-        //   } else if (msg.code == 2008 || msg.code == 2007) {//邮箱或密码错误
-        //     that.loginErr = true;
-        //     that.loginTitle = '邮箱或密码错误';
-        //   } else if (msg.code == 2009) {//邮箱注册码未激活
-        //     that.loginErr = true;
-        //     that.loginTitle = '该邮箱注册码未激活，请前往邮箱激活';
-        //   } else if (msg.code == 2005) {//邮箱注册码未激活已超时
-        //     // that.loginErr = true;
-        //     that.err2005 = true;
-        //     // that.loginTitle = '该邮箱激活地址已超时，已发送新链接，请前往邮箱激活';
-        //   } else {
-        //     that.loginErr = true;
-        //     that.loginTitle = '登录失败';
-        //   }
-        // })
       }
     },
     registerEnterFun: function(e) {
@@ -214,24 +189,6 @@ export default {
       }
       if (!that.nusernameErr && !that.nemailErr && !that.npasswordErr) {
         that.fullscreenLoading = true
-        // getRegister(that.nusername, that.npassword, that.nemail, function (msg) {
-        //   if (msg.code == 1010) {//注册成功
-        //     var timer = setTimeout(function () {//注册中
-        //       that.fullscreenLoading = false;
-        //       that.err2005 = true;
-        //       that.step = 1;
-        //       clearTimeout(timer);
-        //     }, 3000)
-        //   } else if (msg.code == 2002) {//该邮箱已注册
-        //     that.fullscreenLoading = false;
-        //     that.registerErr = true;
-        //     that.registerTitle = '该邮箱已注册,可直接登录';
-        //   } else {
-        //     that.fullscreenLoading = false;
-        //     that.registerErr = true;
-        //     that.registerTitle = '注册失败';
-        //   }
-        // })
       }
     },
     goLogin: function() {
@@ -239,7 +196,7 @@ export default {
       this.err2005 = false
       this.$router.push({ path: '/Login?login=1' })
     },
-    goRegister: function () {
+    goRegister: function() {
       // 去注册
       this.err2005 = false
       this.$router.push({ path: '/Login?login=0' })

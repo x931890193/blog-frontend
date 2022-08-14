@@ -1,8 +1,7 @@
 import userAPI from '@/api/user'
 
-import { GITHUB_OAUTH, WEIBO_OAUTH } from '@/config'
+import { GITHUB_OAUTH } from '@/config'
 import { getToken, removeToken } from '@/utils/auth'
-import { loginType } from '@/utils/constants'
 
 const getDefaultState = () => {
   return {
@@ -52,9 +51,9 @@ const mutations = {
 
 const actions = {
   // user login
-  login({ commit, state }, type = loginType.GITHUB) {
-    window.location.href =
-      type === loginType.GITHUB ? GITHUB_OAUTH.url : WEIBO_OAUTH.url
+  login({ commit, state }) {
+    alert(GITHUB_OAUTH.url)
+    window.location.href = GITHUB_OAUTH.url
   },
 
   // get user info

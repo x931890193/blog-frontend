@@ -59,9 +59,7 @@
               <a @click="goHandle({ name: 'LikeCollect', query: { like: 1 } })">喜欢列表</a>
             </li>
             <li>
-              <a @click="
-                  goHandle({ name: 'LikeCollect', query: { collect: 1 } })
-                ">收藏列表</a>
+              <a @click="goHandle({ name: 'LikeCollect', query: { collect: 1 } })">收藏列表</a>
             </li>
             <li>
               <a href="javascript:void(0);" @click="userlogout">退出登录</a>
