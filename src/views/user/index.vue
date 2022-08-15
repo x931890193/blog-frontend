@@ -22,8 +22,8 @@
             <template>
               <el-radio-group v-model="editUser.label">
                 <el-radio
-                  v-for="(item, index) in usertab"
-                  :key="'usertab' + index"
+                  v-for="(item, index) in userTag"
+                  :key="'userTag' + index"
                   :label="item"
                 >{{ item }}</el-radio>
               </el-radio-group>
@@ -32,44 +32,42 @@
           <li>
             <span class="leftTitle">是否展示友链</span>
             <el-switch
-              v-model="editUser.webBlogState"
+              v-model="editUser.state"
               :active-value="1"
               :inactive-value="0"
               on-color="#13ce66"
               off-color="#aaa"
             />
           </li>
-          <li v-show="editUser.webBlogState">
+          <li v-show="editUser.state">
             <span class="leftTitle">网站名称</span>
-            <el-input v-model="editUser.webBlogName" placeholder="网站名称" /><i
-              v-show="editUser.webBlogState"
-              class="fa fa-wa fa-asterisk"
-            />
+            <el-input v-model="editUser.webBlogName" placeholder="网站名称" /><i v-show="editUser.state" class="fa fa-wa fa-asterisk"/>
           </li>
-          <li v-show="editUser.webBlogState">
+          <li v-show="editUser.state">
             <span class="leftTitle">网站地址</span>
             <el-input
               v-model="editUser.webBlog"
               placeholder="网站"
               value="userWeb"
             />
-            <i v-show="editUser.webBlogState" class="fa fa-wa fa-asterisk" />
+            <i v-show="editUser.state" class="fa fa-wa fa-asterisk" />
           </li>
-          <li v-show="editUser.webBlogState">
+          <li v-show="editUser.state">
             <span class="leftTitle">网站简介</span>
             <el-input
-              v-model="editUser.webBlogDesc"
+              v-model="editUser.description"
               type="textarea"
               :rows="3"
               placeholder="请输入内容"
-            /><i v-show="editUser.webBlogState" class="fa fa-wa fa-asterisk" />
+            /><i v-show="editUser.state" class="fa fa-wa fa-asterisk" />
           </li>
-          <li v-show="editUser.webBlogState" class="avatarlist">
+          <li v-show="editUser.state" class="avatarlist">
             <span class="leftTitle">网站logo</span>
-            <div>
-              <img :src="editUser.webBlogIcon" alt="">
+            <div v-show="logoUrl" style="text-align: center">
+              <img :src="logoUrl" :alt="logoUrl">
             </div>
             <!-- 上传图片 -->
+            <br>
             <div class="avatar-uploader" @click="selectHandle">
               <div class="el-upload">
                 <el-link type="primary">上传图片</el-link>
@@ -92,8 +90,7 @@
           <a
             class="tcolors-bg"
             href="javascript:void(0);"
-            @click="isEdit = !isEdit"
-          >取消</a>
+            @click="isEdit = !isEdit">取消</a>
           <a class="tcolors-bg" href="javascript:void(0);" @click="saveInfoFun">保 存</a>
         </div>
       </section>
@@ -118,9 +115,10 @@ export default {
     return {
       isEdit: false,
       state: true, // 是否展示友链开关
-      usertab: userTag,
+      userTag: userTag,
       editUser: {},
-      wwwHost: 'http://' + window.location.host // 图片域名
+      // 之前套了一层 无法动态刷新
+      logoUrl: ''
     }
   },
   computed: {
@@ -129,18 +127,6 @@ export default {
   methods: {
     // 事件处理器
     ...mapActions('user', ['edit']),
-    handleAvatarSuccess(res) {
-      // 上传头像
-      // console.log('用户头像',res.image_name,file);
-      // console.log(URL.createObjectURL(file.raw));
-      if (res.code === 1001) {
-        // 存储
-        this.userInfo.avatar = res.image_name
-        this.userInfo.head_start = 1
-      } else {
-        this.$message.error('上传图片失败')
-      }
-    },
     selectHandle() {
       this.$refs.picker && this.$refs.picker.click()
     },
@@ -167,26 +153,17 @@ export default {
       }
     },
     async uploadHandler(file) {
-      var params = new FormData()
+      const params = new FormData()
       params.append('name', file.name)
       params.append('file', file)
-      const res = await resourceAPI.uploadFile(params)
-      if (res.code === 0) {
-        this.editUser.webBlogIcon = res.data.url
-      }
-    },
-    handleLogoSuccess(res) {
-      // 上传网站logo
-      if (res.code === 1001) {
-        // 存储
-        this.userInfo.image = res.image_name
-        this.userInfo.logo_start = 1
-      } else {
-        this.$message.error('上传图片失败')
-      }
+      await resourceAPI.uploadFile(params).then((res) => {
+        this.logoUrl = res.url
+      }).catch(err => {
+        this.$message.error(err)
+      })
     },
     async saveInfoFun() {
-      if (this.editUser.webBlogState) {
+      if (this.editUser.state) {
         var pattern =
           /(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&:/~\+#]*[\w\-\@?^=%&/~\+#])?/
         // const pattern = new RegExp('(https?|ftp|file)://[-w+&@#/%=~|?!:,.;]+[-w+&@#/%=~|]')
@@ -208,12 +185,14 @@ export default {
           return
         }
       }
+      this.editUser.logoUrl = this.logoUrl
       await this.edit(this.editUser)
       this.$message.success('保存成功！')
       this.isEdit = false
     },
     gotoEdit() {
       this.isEdit = !this.isEdit
+      this.logoUrl = this.editUser.logoUrl
       this.editUser = cloneDeep(this.userInfo)
     }
   }

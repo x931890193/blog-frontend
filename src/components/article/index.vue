@@ -81,7 +81,6 @@ export default {
       this.totalPage = pagination.totalPage
       this.current = pagination.currentPage
       this.listLoading = pagination.totalPage > pagination.currentPage
-      console.log(pagination)
       // this.loadingInstance && this.loadingInstance.close()
     },
 

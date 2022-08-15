@@ -38,7 +38,6 @@ async function getListByClass(params) {
     })
     return Promise.reject(new Error(res.msg || 'Error'))
   }
-  console.log(res)
   return res
 }
 

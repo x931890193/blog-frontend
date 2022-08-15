@@ -21,8 +21,9 @@ const service = axios.create({
 // request interceptor
 service.interceptors.request.use(
   (config) => {
-    if (getToken()) {
-      config.headers['Authorization'] = 'Bearer ' + getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
+    const token = getToken()
+    if (token) {
+      config.headers['Authorization'] = 'Bearer ' + token // 让每个请求携带自定义token 请根据实际情况自行修改
     }
     return config
   },

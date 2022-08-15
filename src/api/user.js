@@ -14,15 +14,26 @@ function login() {
 function logout() {
   return request({
     url: `${PATH}/logout`,
-    method: 'get'
+    method: 'post'
   })
 }
 
-function getInfo() {
-  return request({
+async function getInfo() {
+  const buf = await request({
     url: `${PATH}/getUserInfo`,
     method: 'get'
   })
+  const UserInfoResp = protoRoot.lookupType('UserInfoResp')
+  const res = UserInfoResp.decode(buf)
+  if (res.code) {
+    Message({
+      message: res.msg,
+      type: 'error',
+      duration: 5 * 1000
+    })
+    return Promise.reject(new Error(res.msg || 'Error'))
+  }
+  return res
 }
 
 function getWebBlogUser() {

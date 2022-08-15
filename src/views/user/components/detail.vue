@@ -8,6 +8,7 @@
         </button>
       </h1>
     </header>
+    <br>
     <section>
       <ul class="userInfoBox">
         <li class="avatarlist">

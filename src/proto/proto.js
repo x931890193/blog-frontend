@@ -1139,6 +1139,50 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
             id: 4
           }
         }
+      },
+      UserInfoResp: {
+        fields: {
+          code: {
+            type: "uint32",
+            id: 1
+          },
+          msg: {
+            type: "string",
+            id: 2
+          },
+          userId: {
+            type: "uint32",
+            id: 3
+          },
+          username: {
+            type: "string",
+            id: 4
+          },
+          status: {
+            type: "bool",
+            id: 5
+          },
+          avatar: {
+            type: "string",
+            id: 6
+          }
+        }
+      },
+      UploadFileResp: {
+        fields: {
+          code: {
+            type: "uint32",
+            id: 1
+          },
+          msg: {
+            type: "string",
+            id: 2
+          },
+          url: {
+            type: "string",
+            id: 3
+          }
+        }
       }
     }
   }

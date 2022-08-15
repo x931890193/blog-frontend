@@ -2,7 +2,9 @@ import router from '@/router'
 import store from '@/store'
 import NProgress from 'nprogress' // progress bar
 import 'nprogress/nprogress.css' // progress bar style
-import { getToken } from '@/utils/auth' // get token from cookie
+import { getToken } from '@/utils/auth'
+import { Message as Message } from 'element-ui'
+
 NProgress.configure({
   showSpinner: false
 }) // NProgress Configuration
@@ -12,9 +14,15 @@ router.beforeEach(async (to, from, next) => {
   NProgress.start()
   const hasToken = getToken()
   // console.log('888')
-  if (hasToken && !store.state.user.haslogin) {
-    // console.log('999', store)
-    await store.dispatch('user/getInfo')
+  // if (hasToken && !store.state.user.haslogin) {
+  if (hasToken) {
+    await store.dispatch('user/getInfo').catch(err => {
+      Message({
+        message: err,
+        type: 'error',
+        duration: 5 * 1000
+      })
+    })
   }
   next()
 })

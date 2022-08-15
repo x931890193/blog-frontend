@@ -52,18 +52,14 @@ const mutations = {
 const actions = {
   // user login
   login({ commit, state }) {
-    alert(GITHUB_OAUTH.url)
     window.location.href = GITHUB_OAUTH.url
   },
 
   // get user info
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
-      userAPI
-        .getInfo(state.token)
-        .then((response) => {
-          const { data } = response
-          // console.log(data)
+      userAPI.getInfo(state.token)
+        .then((data) => {
           if (!data) {
             return reject('Verification failed, please Login again.')
           }
@@ -76,7 +72,7 @@ const actions = {
           resolve(data)
         })
         .catch((error) => {
-          reject(error)
+          return reject(error)
         })
     })
   },
