@@ -101,6 +101,9 @@
                     <div v-show="citem.label" class="i-class">
                       {{ citem.label }}
                     </div>
+                    <div v-show="item.os" class="i-class">{{ item.os }}</div>
+                    <div v-show="item.ua" class="i-class">{{ item.ua }}</div>
+                    <div v-show="item.ip" class="i-class">{{ item.ip }}</div>
                     <div class="i-time">
                       <time>{{ initDate(citem.createDate) }}</time>
                     </div>
@@ -138,6 +141,9 @@
                         <div v-show="ccitem.label" class="i-class">
                           {{ ccitem.label }}
                         </div>
+                        <div v-show="item.os" class="i-class">{{ item.os }}</div>
+                        <div v-show="item.ua" class="i-class">{{ item.ua }}</div>
+                        <div v-show="item.ip" class="i-class">{{ item.ip }}</div>
                         <div class="i-time">
                           <time>{{ initDate(ccitem.createDate) }}</time>
                         </div>
