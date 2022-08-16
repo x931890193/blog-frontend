@@ -22,6 +22,9 @@ const mutations = {
   RESET_STATE: (state) => {
     Object.assign(state, getDefaultState())
   },
+  SET_ONLINE: (state, online) => {
+    state.online = online
+  },
   SET_TOKEN: (state, token) => {
     state.token = token
   },
@@ -51,19 +54,19 @@ const mutations = {
 
 const actions = {
   // user login
-  login({ commit, state }) {
+  login({commit, state}) {
     window.location.href = GITHUB_OAUTH.url
   },
 
   // get user info
-  getInfo({ commit, state }) {
+  getInfo({commit, state}) {
     return new Promise((resolve, reject) => {
       userAPI.getInfo(state.token)
         .then((data) => {
           if (!data) {
             return reject('Verification failed, please Login again.')
           }
-          const { userId, username, status, avatar } = data
+          const {userId, username, status, avatar} = data
           commit('SET_ID', userId)
           commit('SET_NAME', username)
           commit('SET_ROLE', status)
@@ -78,7 +81,7 @@ const actions = {
   },
 
   // user logout
-  logout({ state }) {
+  logout({state}) {
     return new Promise((resolve, reject) => {
       userAPI
         .logout(state.token)
@@ -96,7 +99,7 @@ const actions = {
   },
 
   // remove token
-  resetToken({ commit }) {
+  resetToken({commit}) {
     return new Promise((resolve) => {
       removeToken() // must remove  token  first
       commit('RESET_STATE')
@@ -104,12 +107,12 @@ const actions = {
     })
   },
 
-  edit({ commit }, userInfo) {
+  edit({commit}, userInfo) {
     return new Promise((resolve, reject) => {
       userAPI
         .edit(userInfo)
         .then((data) => {
-          const { userId, username, status, avatar } = data
+          const {userId, username, status, avatar} = data
           commit('SET_ID', userId)
           commit('SET_NAME', username)
           commit('SET_ROLE', status)
@@ -124,9 +127,11 @@ const actions = {
           reject(error)
         })
     })
+  },
+  recordOnline({commit}, online) {
+    commit('SET_ONLINE', online)
   }
 }
-
 export default {
   namespaced: true,
   state: defaultState,

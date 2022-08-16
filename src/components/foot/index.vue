@@ -7,6 +7,9 @@
         <span class="timeJump">(●'◡'●)ﾉ♥</span>
       </p>
       <p>
+        <span> 当前在线人数：{{ this.$store.state.user.online }} </span>
+      </p>
+      <p>
         <a :href="github" target="_blank">GitHub</a>.
         Theme By
         <a href="https://www.mangoya.cn/#/" target="_blank">Aimee1608</a>.

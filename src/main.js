@@ -31,6 +31,10 @@ import HeadImg from '@/plugins/HeadImg'
 import '@/utils/permission'
 import '@/assets/css/sigmar.css'
 
+import global from '@/utils/ws'
+
+Vue.prototype.$global = global
+
 Vue.config.productionTip = false
 
 Vue.use(Row)
