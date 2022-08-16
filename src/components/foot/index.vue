@@ -7,7 +7,7 @@
         <span class="timeJump">(●'◡'●)ﾉ♥</span>
       </p>
       <p>
-        <span> 当前在线人数：111{{ this.$store.state.user.online || '暂时无法获取' }} </span>
+        <span> 当前在线人数：{{ this.$store.state.user.online || '暂时无法获取' }} </span>
       </p>
       <p>
         <a :href="github" target="_blank">GitHub</a>.
