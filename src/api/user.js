@@ -43,12 +43,37 @@ function getWebBlogUser() {
   })
 }
 
-function edit(data) {
-  return request({
+async function edit(data) {
+  const EditUserInfoRequest = protoRoot.lookupType('EditUserInfoRequest')
+  const EditUserInfoRequestMessage = EditUserInfoRequest.encode(
+    EditUserInfoRequest.create({
+      userId: data.userId,
+      label: data.label,
+      state: data.state,
+      linkUrl: data.linkUrl,
+      linkname: data.linkname,
+      linkDesc: data.linkDesc,
+      logoUrl: data.logoUrl,
+      receiveUpdate: data.receiveUpdate
+    })
+  ).finish()
+  const blob = new Blob([EditUserInfoRequestMessage], { type: 'buffer' })
+  const buf = await request({
     url: `${PATH}/edit`,
     method: 'post',
-    data
+    data: blob
   })
+  const UserInfoResp = protoRoot.lookupType('UserInfoResp')
+  const res = UserInfoResp.decode(buf)
+  if (res.code) {
+    Message({
+      message: res.msg,
+      type: 'error',
+      duration: 5 * 1000
+    })
+    return Promise.reject(new Error(res.msg || 'Error'))
+  }
+  return res
 }
 
 async function getLinkList() {

@@ -1,68 +1,80 @@
 <!-- 用户中心 -->
 <template>
   <div v-if="haslogin">
+    <Detail v-show="!isEdit" :userInfo="userInfo" @gotoEdit="gotoEdit" />
     <div v-if="isEdit" class="tcommonBox">
       <header>
-        <h1>编辑个人资料</h1>
+        <h1 style="text-align: center">编辑个人资料</h1>
       </header>
+      <br>
       <section>
         <ul class="userInfoBox">
           <li class="avatarlist">
             <span class="leftTitle">头像</span>
             <div class="avatar-uploader">
-              <HeadImg :src="editUser.avatar" class="avatar" />
+              <HeadImg :src="avatar" class="avatar" />
             </div>
           </li>
           <li class="username">
-            <span class="leftTitle">昵称</span>
-            <span>{{ editUser.username || '无' }}</span>
+            <span class="leftTitle">昵称:</span>
+            <span>{{ username || '无' }}</span>
           </li>
           <li>
-            <span class="leftTitle">个性标签</span>
+            <span class="leftTitle">接收更新邮件:</span>
+            <el-switch
+              v-model="receiveUpdate"
+              :active-value="true"
+              :inactive-value="false"
+              on-color="#13ce66"
+              off-color="#aaa"
+            />
+          </li>
+          <li>
+            <span class="leftTitle">个性标签:</span>
             <template>
-              <el-radio-group v-model="editUser.label">
+              <el-radio-group v-model="label">
                 <el-radio
                   v-for="(item, index) in userTag"
                   :key="'userTag' + index"
-                  :label="item"
+                  :label="index"
                 >{{ item }}</el-radio>
               </el-radio-group>
             </template>
           </li>
           <li>
-            <span class="leftTitle">是否展示友链</span>
+            <span class="leftTitle">是否展示友链:</span>
             <el-switch
-              v-model="editUser.state"
-              :active-value="1"
-              :inactive-value="0"
+              v-model="state"
+              :active-value="true"
+              :inactive-value="false"
               on-color="#13ce66"
               off-color="#aaa"
             />
           </li>
-          <li v-show="editUser.state">
-            <span class="leftTitle">网站名称</span>
-            <el-input v-model="editUser.webBlogName" placeholder="网站名称" /><i v-show="editUser.state" class="fa fa-wa fa-asterisk"/>
+          <li v-show="state">
+            <span class="leftTitle">网站名称:</span>
+            <el-input v-model="linkname" placeholder="网站名称" /><i class="fa fa-wa fa-asterisk" />
           </li>
-          <li v-show="editUser.state">
-            <span class="leftTitle">网站地址</span>
+          <li v-show="state">
+            <span class="leftTitle">网站地址:</span>
             <el-input
-              v-model="editUser.webBlog"
+              v-model="linkUrl"
               placeholder="网站"
               value="userWeb"
             />
-            <i v-show="editUser.state" class="fa fa-wa fa-asterisk" />
+            <i v-show="state" class="fa fa-wa fa-asterisk" />
           </li>
-          <li v-show="editUser.state">
-            <span class="leftTitle">网站简介</span>
+          <li v-show="state">
+            <span class="leftTitle">网站简介:</span>
             <el-input
-              v-model="editUser.description"
+              v-model="linkDesc"
               type="textarea"
               :rows="3"
               placeholder="请输入内容"
-            /><i v-show="editUser.state" class="fa fa-wa fa-asterisk" />
+            /><i v-show="state" class="fa fa-wa fa-asterisk" />
           </li>
-          <li v-show="editUser.state" class="avatarlist">
-            <span class="leftTitle">网站logo</span>
+          <li v-show="state" class="avatarlist">
+            <span class="leftTitle">网站logo:</span>
             <div v-show="logoUrl" style="text-align: center">
               <img :src="logoUrl" :alt="logoUrl">
             </div>
@@ -90,19 +102,18 @@
           <a
             class="tcolors-bg"
             href="javascript:void(0);"
-            @click="isEdit = !isEdit">取消</a>
+            @click="isEdit = !isEdit"
+          >取消</a>
           <a class="tcolors-bg" href="javascript:void(0);" @click="saveInfoFun">保 存</a>
         </div>
       </section>
     </div>
-    <Detail v-show="!isEdit" :userInfo="userInfo" @gotoEdit="gotoEdit" />
   </div>
 </template>
 
 <script>
 import { mapActions, mapState } from 'vuex'
 import { userTag } from '@/utils/constants'
-import { cloneDeep } from 'lodash'
 import Detail from './components/detail.vue'
 import resourceAPI from '@/api/resource'
 export default {
@@ -115,10 +126,13 @@ export default {
     return {
       isEdit: false,
       state: true, // 是否展示友链开关
+      receiveUpdate: true,
       userTag: userTag,
-      editUser: {},
-      // 之前套了一层 无法动态刷新
-      logoUrl: ''
+      logoUrl: '',
+      linkUrl: '',
+      linkname: '',
+      label: 0,
+      linkDesc: ''
     }
   },
   computed: {
@@ -163,37 +177,53 @@ export default {
       })
     },
     async saveInfoFun() {
-      if (this.editUser.state) {
+      if (this.state) {
         var pattern =
           /(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&:/~\+#]*[\w\-\@?^=%&/~\+#])?/
         // const pattern = new RegExp('(https?|ftp|file)://[-w+&@#/%=~|?!:,.;]+[-w+&@#/%=~|]')
         // console.log(pattern.test(that.userInfo.url));
-        // console.log('this.editUser.webBlog', this.editUser)
-        if (!this.editUser.webBlog || !pattern.test(this.editUser.webBlog)) {
+        // console.log('this.webBlog', this.editUser)
+        if (!this.linkUrl || !pattern.test(this.linkUrl)) {
           // 如果展示友链 网址为必填项
           this.$message.error('请正确填写网址，如http://www.xxx.com')
           return
         }
-        if (!this.editUser.webBlogName) {
+        if (!this.linkname) {
           // 如果展示友链 网址为必填项
           this.$message.error('请填写网站名称')
           return
         }
-        if (!this.editUser.webBlogDesc) {
+        if (!this.linkDesc) {
           // 如果展示友链 网址为必填项
           this.$message.error('请填写网站简介')
           return
         }
       }
-      this.editUser.logoUrl = this.logoUrl
-      await this.edit(this.editUser)
-      this.$message.success('保存成功！')
-      this.isEdit = false
+      const form = {
+        userId: this.userInfo.userId,
+        label: this.label,
+        state: this.state,
+        linkUrl: this.linkUrl,
+        linkname: this.linkname,
+        linkDesc: this.linkDesc,
+        receiveUpdate: this.receiveUpdate,
+        logoUrl: this.logoUrl
+      }
+      this.edit(form).then(resp => {
+        this.$message.success(this.state ? '保存成功！' + '等待审核' : '保存成功！')
+        this.isEdit = false
+      }).catch(err => {
+        this.$message.error(err)
+      })
     },
     gotoEdit() {
+      this.receiveUpdate = this.userInfo.receiveUpdate
+      this.state = this.userInfo.state
+      this.logoUrl = this.userInfo.logoUrl
+      this.linkname = this.userInfo.linkname
+      this.linkUrl = this.userInfo.linkUrl
+      this.linkDesc = this.userInfo.linkDesc
       this.isEdit = !this.isEdit
-      this.logoUrl = this.editUser.logoUrl
-      this.editUser = cloneDeep(this.userInfo)
     }
   }
 }

@@ -1159,12 +1159,48 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
             id: 4
           },
           status: {
-            type: "bool",
+            type: "uint32",
             id: 5
           },
           avatar: {
             type: "string",
             id: 6
+          },
+          linkname: {
+            type: "string",
+            id: 7
+          },
+          linkUrl: {
+            type: "string",
+            id: 8
+          },
+          linkDesc: {
+            type: "string",
+            id: 9
+          },
+          logoUrl: {
+            type: "string",
+            id: 10
+          },
+          state: {
+            type: "bool",
+            id: 11
+          },
+          label: {
+            type: "uint32",
+            id: 12
+          },
+          receiveUpdate: {
+            type: "bool",
+            id: 13
+          },
+          token: {
+            type: "string",
+            id: 14
+          },
+          verifyStatus: {
+            type: "string",
+            id: 15
           }
         }
       },
@@ -1181,6 +1217,42 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
           url: {
             type: "string",
             id: 3
+          }
+        }
+      },
+      EditUserInfoRequest: {
+        fields: {
+          userId: {
+            type: "uint32",
+            id: 1
+          },
+          label: {
+            type: "uint32",
+            id: 2
+          },
+          state: {
+            type: "bool",
+            id: 3
+          },
+          linkUrl: {
+            type: "string",
+            id: 4
+          },
+          linkname: {
+            type: "string",
+            id: 5
+          },
+          linkDesc: {
+            type: "string",
+            id: 6
+          },
+          receiveUpdate: {
+            type: "bool",
+            id: 7
+          },
+          logoUrl: {
+            type: "string",
+            id: 8
           }
         }
       }

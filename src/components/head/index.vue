@@ -131,6 +131,9 @@ export default {
       })
     },
     goHandle(path) {
+      if (path.name === this.$route.name) {
+        return
+      }
       this.$router.push(path)
     },
     changeTitle() {

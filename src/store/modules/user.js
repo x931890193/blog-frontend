@@ -1,7 +1,7 @@
 import userAPI from '@/api/user'
 
 import { GITHUB_OAUTH } from '@/config'
-import { getToken, removeToken } from '@/utils/auth'
+import {getToken, removeToken, setToken} from '@/utils/auth'
 
 const getDefaultState = () => {
   return {
@@ -108,14 +108,16 @@ const actions = {
     return new Promise((resolve, reject) => {
       userAPI
         .edit(userInfo)
-        .then((response) => {
-          const { data } = response
+        .then((data) => {
           const { userId, username, status, avatar } = data
           commit('SET_ID', userId)
           commit('SET_NAME', username)
           commit('SET_ROLE', status)
           commit('SET_AVATAR', avatar)
           commit('SET_USER', data)
+          if (data.token !== '') {
+            setToken(data.token)
+          }
           resolve()
         })
         .catch((error) => {
