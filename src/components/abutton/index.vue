@@ -4,7 +4,7 @@
     :class="[
       'tcolors-bg',
       'abutton',
-      size == 'small' ? 'abutton-small' : 'abutton-large'
+      size === 'small' ? 'abutton-small' : 'abutton-large'
     ]"
     @click="handle"
   >

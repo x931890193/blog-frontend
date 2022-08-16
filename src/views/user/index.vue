@@ -57,21 +57,11 @@
           </li>
           <li v-show="state">
             <span class="leftTitle">网站地址:</span>
-            <el-input
-              v-model="linkUrl"
-              placeholder="网站"
-              value="userWeb"
-            />
-            <i v-show="state" class="fa fa-wa fa-asterisk" />
+            <el-input v-model="linkUrl" placeholder="网站" /> <i class="fa fa-wa fa-asterisk" />
           </li>
           <li v-show="state">
             <span class="leftTitle">网站简介:</span>
-            <el-input
-              v-model="linkDesc"
-              type="textarea"
-              :rows="3"
-              placeholder="请输入内容"
-            /><i v-show="state" class="fa fa-wa fa-asterisk" />
+            <el-input v-model="linkDesc" type="textarea" :rows="3" placeholder="请输入内容" /><i class="fa fa-wa fa-asterisk" />
           </li>
           <li v-show="state" class="avatarlist">
             <span class="leftTitle">网站logo:</span>

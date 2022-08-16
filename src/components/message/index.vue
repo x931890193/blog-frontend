@@ -40,8 +40,6 @@
         </div>
         <el-row class="tmsg-r-info">
           <el-col :span="24" class="info-submit">
-            <!-- <p class="tcolors-bg"
-               @click="sendMsg"></p> -->
             <AButton size="large" @click="sendMsg">{{ sendTip }}</AButton>
           </el-col>
         </el-row>
@@ -77,9 +75,7 @@
                 <div
                   v-if="haslogin"
                   class="tmsg-replay"
-                  @click="
-                    respondMsg({ leaveIndex: index, pIndex: -1, pid: item._id })
-                  "
+                  @click="respondMsg({ leaveIndex: index, pIndex: -1, pid: item._id })"
                 >
                   回复
                 </div>
@@ -116,13 +112,7 @@
                     <div
                       v-show="haslogin"
                       class="tmsg-replay"
-                      @click="
-                        respondMsg({
-                          leaveIndex: index,
-                          pIndex: cindex,
-                          pid: citem._id
-                        })
-                      "
+                      @click="respondMsg({leaveIndex: index, pIndex: cindex, pid: citem._id})"
                     >
                       回复
                     </div>
@@ -157,15 +147,9 @@
                           {{ ccitem.content }}
                         </p>
                         <div
-                          v-show="haslogin"
+                          v-show="false"
                           class="tmsg-replay"
-                          @click="
-                            respondMsg({
-                              leaveIndex: cindex,
-                              pIndex: ccindex,
-                              pid: ccitem._id
-                            })
-                          "
+                          @click="respondMsg({leaveIndex: index, pIndex: cindex, ppIndex:ccindex, pid: ccitem._id})"
                         >
                           回复
                         </div>
@@ -185,7 +169,7 @@
 </template>
 
 <script>
-// import {ArticleComment,OtherComment,setArticleComment,setOuthComment} from '../utils/server.js'
+import Marked from 'marked'
 import commentAPI from '@/api/comment'
 import { OwOlist } from '@/utils/constants'
 import { analyzeEmoji } from '@/utils'
@@ -194,6 +178,23 @@ import { initDate } from '@/utils/index.js'
 import AButton from '@/components/abutton'
 import xss from 'xss'
 import {Message} from 'element-ui'
+import hljs from 'highlight.js'
+
+Marked.setOptions({
+  renderer: new Marked.Renderer(),
+  highlight(code) {
+    return hljs.highlightAuto(code).value
+  },
+  pedantic: false,
+  gfm: true,
+  tables: true,
+  breaks: false,
+  sanitize: false,
+  smartLists: true,
+  smartypants: false,
+  xhtml: false
+})
+
 export default {
   name: 'Message',
   components: {
@@ -217,6 +218,7 @@ export default {
       hasMore: true,
       leaveIndex: 0, // 赞赏等其他模块的分类id
       pIndex: -1,
+      ppIndex: -1,
       pid: '', // 回复评论的一级commentId
       sendTip: '发送~',
       list: [],
@@ -248,10 +250,11 @@ export default {
       this.textarea += '[' + inner + ']'
     },
     analyzeEmoji(value) {
-      return analyzeEmoji(xss(value))
+      return Marked(analyzeEmoji(xss(value)))
     },
     // 发送留言
     async sendMsg() {
+      console.log(this.leaveIndex, this.pIndex, this.pid)
       if (this.textarea && this.textarea.trim()) {
         const res = await commentAPI.add({
           content: xss(this.textarea.trim()),
@@ -259,23 +262,22 @@ export default {
           parentId: this.isRespond ? this.pid : null
         })
         if (res.code === 0) {
-          // this.routeChange()
           this.textarea = ''
-          this.removeRespond()
           const timer = setTimeout(() => {
             this.sendTip = '发送~'
             clearTimeout(timer)
           }, 1000)
           if (this.isRespond) {
-            if (this.pIndex === -1) {
-              this.list[this.leaveIndex].children.unshift(res)
+            if (this.pIndex !== -1) {
+              this.list[this.leaveIndex].children[this.pIndex].children.push(res.data)
             } else {
-              this.list[this.leaveIndex].children.push(res)
+              this.list[this.leaveIndex].children.push(res.data)
             }
           } else {
             this.list.unshift(res.data)
           }
           this.total = this.list.length
+          this.removeRespond()
         }
       } else {
         Message({
@@ -290,22 +292,23 @@ export default {
         }, 3000)
       }
     },
-    async respondMsg({ leaveIndex, pIndex, pid }) {
+    async respondMsg({ leaveIndex, pIndex, ppIndex, pid }) {
       // 回复留言
-      console.log(leaveIndex, pid)
-      if (this.haslogin) {
+      if (!this.isRespond) {
+        this.isRespond = true
         var dom = event.currentTarget
         dom = dom.parentNode
-        this.isRespond = true
+        dom.appendChild(this.$refs.respondBox)
         this.leaveIndex = leaveIndex
         this.pIndex = pIndex
+        this.ppIndex = ppIndex
         this.pid = pid
-        await this.sendMsg()
-        dom.appendChild(this.$refs.respondBox)
       }
     },
     removeRespond() {
       // 取消回复留言
+      this.pIndex = -1
+      this.ppIndex = -1
       this.isRespond = false
       this.$refs.tmsgBox.insertBefore(this.$refs.respondBox, this.$refs.listDom)
     },

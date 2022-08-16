@@ -43,11 +43,11 @@
         </li>
         <li>
           <span class="leftTitle">网站地址:</span>
-          <p class="rightInner">{{ userInfo.linkUrl || '无' }}</p>
+          <span>{{ userInfo.linkUrl || '无' }}</span>
         </li>
         <li>
           <span class="leftTitle">网站简介:</span>
-          <p class="rightInner">{{ userInfo.linkDesc || '无' }}</p>
+          <span>{{ userInfo.linkDesc || '无' }}</span>
         </li>
         <li class="avatarlist">
           <span class="leftTitle">网站logo:</span>
