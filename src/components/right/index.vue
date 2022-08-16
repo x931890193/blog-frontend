@@ -109,7 +109,7 @@ export default {
     await this.getAbout()
   },
   beforeDestroy() {
-    window.removeEventListener('scroll')
+    window.removeEventListener('scroll', throttle)
   },
   methods: {
     ...mapActions('common', ['goDetail']),
