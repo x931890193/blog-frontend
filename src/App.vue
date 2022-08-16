@@ -26,7 +26,7 @@ import Foot from './components/foot/index'
 import Right from './components/right/index'
 import CursorSpecialEffects from '@/utils/cursor-effect'
 import evanyouFun from '@/utils/evanyou'
-import {mapActions, mapGetters} from 'vuex'
+import {mapActions} from 'vuex'
 export default {
   name: 'App',
   components: {
@@ -43,15 +43,11 @@ export default {
       serverTimeoutObj: null, // 心跳倒计时
       timeoutnum: null, // 断开 重连倒计时
       lockReconnect: false, // 防止
-      websocket: null,
+      websocket: null
     }
   },
   created() {
     this.initWebSocket()
-  },
-  // eslint-disable-next-line vue/order-in-components
-  computed: {
-    ...mapGetters(['online'])
   },
   mounted() {
     setTimeout(() => {
