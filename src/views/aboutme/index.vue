@@ -4,10 +4,7 @@
     <div class="tcommonBox">
       <div class="aboutme-title">关于我</div>
       <section class="aboutme-content">
-        <p class="">
-          <img src="@/assets/img/maoto.png" alt="" class="aboutmeImg"/>
-        </p>
-        <p v-for="(item) in descriptions" class="aboutme-description">{{ item }} </p>
+        <div class="aboutme-description" v-html="renderMarkDown(descriptions)"></div>
       </section>
     </div>
     <Message id="aboutme"/>
@@ -17,6 +14,23 @@
 <script>
 import siteApi from '@/api/siteinfo'
 import Message from './../../components/message/index'
+import Marked from 'marked'
+import hljs from 'highlight.js'
+
+Marked.setOptions({
+  renderer: new Marked.Renderer(),
+  highlight(code) {
+    return hljs.highlightAuto(code).value
+  },
+  pedantic: false,
+  gfm: true,
+  tables: true,
+  breaks: false,
+  sanitize: false,
+  smartLists: true,
+  smartypants: false,
+  xhtml: false
+})
 
 export default {
   components: {
@@ -25,9 +39,7 @@ export default {
   },
   data() {
     return {
-      descriptions: [
-        '博客2021年9月16日更新2.0'
-      ]
+      descriptions: ''
     }
   },
   created() {
@@ -35,6 +47,9 @@ export default {
     this.getAbout()
   },
   methods: {
+    renderMarkDown(string) {
+      return Marked(string)
+    },
     // 事件处理器
     async getAbout() {
       const res = await siteApi.getAbout()

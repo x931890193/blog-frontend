@@ -2,12 +2,12 @@
   <div class="footBack footBackQian">
     <div class="fcontainer">
       <p>
+        <span> 当前在线人数：{{ this.$store.state.user.online || '获取中～' }} </span>
+      </p>
+      <p>
         网站已苟活：
         <span>{{ longTime }}</span>
         <span class="timeJump">(●'◡'●)ﾉ♥</span>
-      </p>
-      <p>
-        <span> 当前在线人数：{{ this.$store.state.user.online || '获取中～' }} </span>
       </p>
       <p>
         <a :href="github" target="_blank">GitHub</a>.

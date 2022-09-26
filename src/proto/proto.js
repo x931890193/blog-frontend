@@ -299,9 +299,12 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
             id: 4
           },
           descriptions: {
-            rule: "repeated",
             type: "string",
             id: 5
+          },
+          id: {
+            type: "uint32",
+            id: 6
           }
         }
       },
@@ -1253,6 +1256,22 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
           logoUrl: {
             type: "string",
             id: 8
+          }
+        }
+      },
+      UpdateAboutRequest: {
+        fields: {
+          content: {
+            type: "string",
+            id: 1
+          },
+          htmlContent: {
+            type: "string",
+            id: 2
+          },
+          id: {
+            type: "uint32",
+            id: 3
           }
         }
       }
