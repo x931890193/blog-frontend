@@ -308,6 +308,30 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
           }
         }
       },
+      SiteInfoReq: {
+        fields: {
+          copyright: {
+            type: "string",
+            id: 1
+          },
+          descriptions: {
+            type: "string",
+            id: 4
+          },
+          beian: {
+            type: "string",
+            id: 5
+          },
+          title: {
+            type: "string",
+            id: 6
+          },
+          id: {
+            type: "uint32",
+            id: 7
+          }
+        }
+      },
       SiteInfoResp: {
         fields: {
           code: {
@@ -329,6 +353,22 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
           beian: {
             type: "string",
             id: 5
+          },
+          descriptions: {
+            type: "string",
+            id: 6
+          },
+          selfDescriptions: {
+            type: "string",
+            id: 7
+          },
+          id: {
+            type: "uint32",
+            id: 8
+          },
+          title: {
+            type: "string",
+            id: 9
           }
         }
       },
@@ -1272,6 +1312,93 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
           id: {
             type: "uint32",
             id: 3
+          }
+        }
+      },
+      PanelGroupResp: {
+        fields: {
+          code: {
+            type: "uint32",
+            id: 1
+          },
+          msg: {
+            type: "string",
+            id: 2
+          },
+          blogCount: {
+            type: "uint32",
+            id: 3
+          },
+          visitorCount: {
+            type: "uint32",
+            id: 4
+          },
+          userCount: {
+            type: "uint32",
+            id: 5
+          }
+        }
+      },
+      LineChartDataResp: {
+        fields: {
+          code: {
+            type: "uint32",
+            id: 1
+          },
+          msg: {
+            type: "string",
+            id: 2
+          },
+          axisData: {
+            rule: "repeated",
+            type: "uint32",
+            id: 3
+          },
+          expectedData: {
+            rule: "repeated",
+            type: "uint32",
+            id: 4
+          },
+          actualData: {
+            rule: "repeated",
+            type: "uint32",
+            id: 5
+          }
+        }
+      },
+      LikeOrCollectRequest: {
+        fields: {
+          id: {
+            type: "uint32",
+            id: 1
+          },
+          flag: {
+            type: "bool",
+            id: 2
+          },
+          isLike: {
+            type: "bool",
+            id: 3
+          }
+        }
+      },
+      IsLikeOrCollectResp: {
+        fields: {
+          code: {
+            type: "uint32",
+            id: 1
+          },
+          msg: {
+            type: "string",
+            id: 2
+          },
+          like: {
+            type: "bool",
+            id: 3
+          },
+          collect: {
+            type: "bool",
+            id: 4
           }
         }
       }

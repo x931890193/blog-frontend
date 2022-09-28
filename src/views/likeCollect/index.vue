@@ -35,7 +35,6 @@ export default {
       const { like, collect } = this.$route.query
       this.like = like
       this.collect = collect
-      // console.log('this.like---999', this.like, this.collect)
     }
   }
 }

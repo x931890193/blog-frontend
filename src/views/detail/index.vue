@@ -43,7 +43,7 @@
 import { mapActions, mapState } from 'vuex'
 import { MessageBox } from 'element-ui'
 import articleAPI from '@/api/article'
-import collectAPI from '@/api/collect'
+// import collectAPI from '@/api/collect' // mix with like api
 import likeAPI from '@/api/like'
 import { initDate } from '@/utils'
 import articleHead from '@/components/articleHead'
@@ -93,7 +93,7 @@ export default {
       // 用户点击喜欢0,用户点击收藏1
       if (this.haslogin) {
         // 判断是否登录
-        var tip = ''
+        let tip = ''
         let res
         if (islike === 1) {
           if (!this.likeArt) {
@@ -105,7 +105,7 @@ export default {
             this.likeArt = false
             tip = '已取消点赞'
           }
-          res = await likeAPI.edit({ id: this.id, value: this.likeArt })
+          res = await likeAPI.edit({ id: this.id, value: this.likeArt, isLike: true })
         } else {
           if (!this.collectArt) {
             this.collectCount += 1
@@ -116,7 +116,7 @@ export default {
             this.collectArt = false
             tip = '已取消收藏'
           }
-          res = await collectAPI.edit({ id: this.id, value: this.collectArt })
+          res = await likeAPI.edit({ id: this.id, value: this.collectArt, isLike: false })
         }
         if (res.code === 0) {
           this.$message({
@@ -148,14 +148,9 @@ export default {
       this.detailObj = cloneDeep(res.obj)
       this.content = this.detailObj.content
       if (this.haslogin) {
-        const likeRes = await likeAPI.getInfo({ id })
-        const collectRes = await collectAPI.getInfo({ id })
-        if (likeRes.code === 0 && likeRes.data._id) {
-          this.likeArt = true
-        }
-        if (collectRes.code === 0 && collectRes.data._id) {
-          this.collectArt = true
-        }
+        const data = await likeAPI.getInfo({ id })
+        this.likeArt = data.like
+        this.collectArt = data.collect
       }
       this.$nextTick(() => {
         this.loadingInstance && this.loadingInstance.close()
