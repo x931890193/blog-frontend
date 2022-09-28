@@ -268,6 +268,7 @@ export default {
           parentId: this.isRespond ? this.pid : null
         })
         if (res.code === 0) {
+          await this.$options.parent.getInfo(this.id)
           this.textarea = ''
           const timer = setTimeout(() => {
             this.sendTip = '发送~'
