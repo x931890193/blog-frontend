@@ -131,7 +131,7 @@ export default {
       })
     },
     goHandle(path) {
-      if (path.name === this.$route.name) {
+      if (path.name === this.$route.name && path.query.like === this.$route.query.like) {
         return
       }
       this.$router.push(path)

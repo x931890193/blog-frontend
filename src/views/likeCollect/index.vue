@@ -2,7 +2,7 @@
 <template>
   <div class="likeCollect">
     <div v-if="like" class="likeCollect-title">喜欢</div>
-    <div v-if="collect" class="likeCollect-title">收藏</div>
+    <div v-else class="likeCollect-title">收藏</div>
     <Article :type="like ? 'like' : 'collect'" />
   </div>
 </template>

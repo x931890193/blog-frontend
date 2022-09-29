@@ -1,8 +1,8 @@
 <!-- 文章详情模块 -->
 <template>
   <div class="detailBox tcommonBox">
-    <div v-if="!content" ref="loading" class="detail-loading" />
-    <articleHead v-show="content" :item="detailObj" />
+    <div v-if="!title" ref="loading" class="detail-loading" />
+    <articleHead v-show="title" :item="detailObj" />
     <Content :content="content" />
     <div class="dshareBox bdsharebuttonbox" data-tag="share_1">
       <div class="dlikeColBox">
@@ -71,7 +71,8 @@ export default {
       collectArt: false, // 是否收藏
       create_time: '',
       content: '',
-      id: ''
+      id: '',
+      title: ''
     }
   },
   computed: {
@@ -146,6 +147,7 @@ export default {
     async getInfo(id) {
       const res = await articleAPI.getInfo({ id })
       this.detailObj = cloneDeep(res.obj)
+      this.title = this.detailObj.title
       this.content = this.detailObj.content
       if (this.haslogin) {
         const data = await likeAPI.getInfo({ id })
