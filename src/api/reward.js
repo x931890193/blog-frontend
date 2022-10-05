@@ -7,7 +7,7 @@ const PATH = '/reward'
 
 async function getRewardList() {
   const buf = await request({
-    url: `${PATH}/getList`,
+    url: `${PATH}/list`,
     method: 'get'
   })
   const RewardResp = protoRoot.lookupType('RewardResp')

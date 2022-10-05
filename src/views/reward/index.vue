@@ -19,7 +19,7 @@
     </el-row>
     <div class="reward-description-title">赞赏记录：</div>
     <el-table :data="tableData" border style="width: 100%">
-      <el-table-column prop="pay_time" label="日期" align="center" />
+      <el-table-column prop="payTime" label="日期" align="center" />
       <el-table-column prop="name" label="赞赏人" align="center" />
       <el-table-column prop="money" label="金额" align="center" />
     </el-table>
@@ -57,8 +57,8 @@ export default {
     // 事件处理器
     async getReward() {
       const res = await rewardAPI.getRewardList()
-      this.wechatImage = res.wechat_image
-      this.aliPayImage = res.alipay_image
+      this.wechatImage = res.wechatImage
+      this.aliPayImage = res.aliPayImage
       this.tableData = res.rewards // [{pay_time: '2020-05-02', name: '若水', money: '1.5'}]
     }
   }
