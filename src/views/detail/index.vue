@@ -23,13 +23,13 @@
       <el-row :class="pdonate ? 'donate-body' : 'donate-body donate-body-show'" :gutter="30">
         <el-col :span="12" class="donate-item">
           <div class="donate-tip">
-            <img src="./../../assets/img/aimee/reward-wechat.jpg" />
+            <img :src="wechatImage" alt="wechat pay">
             <span>微信扫一扫，向我赞赏</span>
           </div>
         </el-col>
         <el-col :span="12" class="donate-item">
           <div class="donate-tip">
-            <img src="./../../assets/img/aimee/reward-zfb.jpg" />
+            <img :src="aliPayImage" alt="alipay">
             <span>支付宝扫一扫，向我赞赏</span>
           </div>
         </el-col>
@@ -43,13 +43,13 @@
 import { mapActions, mapState } from 'vuex'
 import { MessageBox } from 'element-ui'
 import articleAPI from '@/api/article'
-// import collectAPI from '@/api/collect' // mix with like api
 import likeAPI from '@/api/like'
 import { initDate } from '@/utils'
 import articleHead from '@/components/articleHead'
 import Message from '@/components/message'
 import Content from '@/components/content'
 import { cloneDeep } from 'lodash'
+import rewardAPI from '@/api/reward'
 
 export default {
   name: 'Detail',
@@ -72,7 +72,9 @@ export default {
       create_time: '',
       content: '',
       id: '',
-      title: ''
+      title: '',
+      wechatImage: '',
+      aliPayImage: ''
     }
   },
   computed: {
@@ -85,6 +87,7 @@ export default {
   async created() {
     // 生命周期函数
     await this.routeChange()
+    await this.getReward()
   },
   methods: {
     // 事件处理器
@@ -162,6 +165,11 @@ export default {
       this.loadingInstance = this.$loading({ target: this.$refs.loading })
       this.id = this.$route.params.id
       await this.getInfo(this.id)
+    },
+    async getReward() {
+      const res = await rewardAPI.getRewardList()
+      this.wechatImage = res.wechatImage
+      this.aliPayImage = res.aliPayImage
     }
   }
 }

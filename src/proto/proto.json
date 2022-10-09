@@ -1396,6 +1396,108 @@
               "id": 4
             }
           }
+        },
+        "RewardResp": {
+          "fields": {
+            "code": {
+              "type": "uint32",
+              "id": 1
+            },
+            "msg": {
+              "type": "string",
+              "id": 2
+            },
+            "wechatImage": {
+              "type": "string",
+              "id": 3
+            },
+            "aliPayImage": {
+              "type": "string",
+              "id": 4
+            },
+            "rewards": {
+              "rule": "repeated",
+              "type": "Rewards",
+              "id": 5
+            }
+          },
+          "nested": {
+            "Rewards": {
+              "fields": {
+                "payTime": {
+                  "type": "string",
+                  "id": 1
+                },
+                "name": {
+                  "type": "string",
+                  "id": 2
+                },
+                "money": {
+                  "type": "string",
+                  "id": 3
+                },
+                "source": {
+                  "type": "string",
+                  "id": 4
+                }
+              }
+            }
+          }
+        },
+        "QiNiuListResp": {
+          "fields": {
+            "code": {
+              "type": "uint32",
+              "id": 1
+            },
+            "msg": {
+              "type": "string",
+              "id": 2
+            },
+            "total": {
+              "type": "uint32",
+              "id": 3
+            }
+          },
+          "nested": {
+            "qiNiuItem": {
+              "fields": {
+                "name": {
+                  "type": "string",
+                  "id": 1
+                },
+                "url": {
+                  "type": "string",
+                  "id": 2
+                },
+                "createTime": {
+                  "type": "string",
+                  "id": 3
+                },
+                "id": {
+                  "type": "string",
+                  "id": 4
+                }
+              }
+            }
+          }
+        },
+        "LogResp": {
+          "fields": {
+            "code": {
+              "type": "uint32",
+              "id": 1
+            },
+            "msg": {
+              "type": "string",
+              "id": 2
+            },
+            "rows": {
+              "rule": "repeated",
+              "type": "string",
+              "id": 3
+            }
+          }
         }
       }
     }

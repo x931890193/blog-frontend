@@ -18,10 +18,17 @@
       </el-col>
     </el-row>
     <div class="reward-description-title">赞赏记录：</div>
-    <el-table :data="tableData" border style="width: 100%">
-      <el-table-column prop="payTime" label="日期" align="center" />
+    <el-table
+      :data="tableData"
+      border
+      style="width: 100%"
+      height="300"
+      :default-sort="{prop: 'payTime', order: 'descending'}"
+    >
+      <el-table-column sortable prop="payTime" label="日期" align="center" />
       <el-table-column prop="name" label="赞赏人" align="center" />
-      <el-table-column prop="money" label="金额" align="center" />
+      <el-table-column sortable prop="money" label="金额" align="center" />
+      <el-table-column prop="source" label="来源" align="center" />
     </el-table>
   </div>
 </template>
@@ -44,7 +51,8 @@ export default {
           // 赞赏数据
           pay_time: '2020-05-02',
           name: '若水',
-          money: '1.5'
+          money: '1.5',
+          source: 'ali'
         }
       ]
     }
