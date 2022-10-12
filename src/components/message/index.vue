@@ -101,9 +101,9 @@
                     <div v-show="citem.label" class="i-class">
                       {{ citem.label }}
                     </div>
-                    <div v-show="item.os" class="i-class">{{ item.os }}</div>
-                    <div v-show="item.ua" class="i-class">{{ item.ua }}</div>
-                    <div v-show="item.ip" class="i-class">{{ item.ip }}</div>
+                    <div v-show="citem.os" class="i-class">{{ citem.os }}</div>
+                    <div v-show="citem.ua" class="i-class">{{ citem.ua }}</div>
+                    <div v-show="citem.ip" class="i-class">{{ citem.ip }}</div>
                     <div class="i-time">
                       <time>{{ initDate(citem.createDate) }}</time>
                     </div>
@@ -141,9 +141,9 @@
                         <div v-show="ccitem.label" class="i-class">
                           {{ ccitem.label }}
                         </div>
-                        <div v-show="item.os" class="i-class">{{ item.os }}</div>
-                        <div v-show="item.ua" class="i-class">{{ item.ua }}</div>
-                        <div v-show="item.ip" class="i-class">{{ item.ip }}</div>
+                        <div v-show="ccitem.os" class="i-class">{{ ccitem.os }}</div>
+                        <div v-show="ccitem.ua" class="i-class">{{ ccitem.ua }}</div>
+                        <div v-show="ccitem.ip" class="i-class">{{ ccitem.ip }}</div>
                         <div class="i-time">
                           <time>{{ initDate(ccitem.createDate) }}</time>
                         </div>
@@ -208,7 +208,13 @@ export default {
     AButton
   },
   // eslint-disable-next-line vue/require-prop-types
-  props: ['id'],
+  props: {
+    id: {
+      // vue props type设置多个类型
+      type: [Number, String, Object],
+      required: true
+    }
+  },
   computed: {
     ...mapState('user', ['haslogin'])
   },
@@ -268,7 +274,6 @@ export default {
           parentId: this.isRespond ? this.pid : null
         })
         if (res.code === 0) {
-          await this.$options.parent.getInfo(this.id)
           this.textarea = ''
           const timer = setTimeout(() => {
             this.sendTip = '发送~'
