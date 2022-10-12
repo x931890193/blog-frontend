@@ -1,6 +1,6 @@
 const GITHUB_OAUTH = {
-  url: 'https://github.com/login/oauth/authorize?client_id=7a79cb87ff58020bc1ff&state=blog',
-  clientid: '7a79cb87ff58020bc1ff'
+  url: 'https://github.com/login/oauth/authorize?client_id=42fe2219ab22cd547ceb&state=blog',
+  clientid: '42fe2219ab22cd547ceb'
 }
 export default {
   GITHUB_OAUTH
