@@ -62,7 +62,6 @@ export default {
   data() {
     // 选项 / 数据
     return {
-      aid: '', // 文章ID
       pdonate: true, // 打开赞赏控制,
       detailObj: {}, // 返回详情数据
       likeArt: false, // 是否点赞
@@ -148,14 +147,18 @@ export default {
       }
     },
     async getInfo(id) {
-      const res = await articleAPI.getInfo({ id })
-      this.detailObj = cloneDeep(res.obj)
-      this.title = this.detailObj.title
-      this.content = this.detailObj.content
-      if (this.haslogin) {
-        const data = await likeAPI.getInfo({ id })
-        this.likeArt = data.like
-        this.collectArt = data.collect
+      try {
+        const res = await articleAPI.getInfo({ id })
+        this.detailObj = cloneDeep(res.obj)
+        this.title = this.detailObj.title
+        this.content = this.detailObj.content
+        if (this.haslogin) {
+          const data = await likeAPI.getInfo({ id })
+          this.likeArt = data.like
+          this.collectArt = data.collect
+        }
+      } catch (e) {
+        await this.$router.push({name: 'Home'})
       }
       this.$nextTick(() => {
         this.loadingInstance && this.loadingInstance.close()
@@ -164,6 +167,7 @@ export default {
     async routeChange() {
       this.loadingInstance = this.$loading({ target: this.$refs.loading })
       this.id = this.$route.params.id
+      console.log(this.$route)
       await this.getInfo(this.id)
     },
     async getReward() {

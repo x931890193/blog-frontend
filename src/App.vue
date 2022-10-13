@@ -60,7 +60,10 @@ export default {
     ...mapActions('user', ['recordOnline']),
     initWebSocket(supplierId) {
       // WebSocket与普通的请求所用协议有所不同，ws等同于http，wss等同于https
-      const wsUrl = `ws://127.0.0.1:9870/ws`
+      let wsUrl = `ws://www.bytealien.com/ws`
+      if (document.location.protocol === 'https:') {
+        wsUrl = `wss://www.bytealien.com/ws`
+      }
       this.websocket = new WebSocket(wsUrl)
       this.websocket.onopen = this.websocketonopen
       this.websocket.onerror = this.websocketonerror
