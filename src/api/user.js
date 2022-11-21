@@ -1,6 +1,7 @@
 import request from './request'
 import protoRoot from '@/proto/proto'
 import { Message as Message } from 'element-ui'
+import {removeToken} from '@/utils/auth'
 
 const PATH = '/user'
 
@@ -31,6 +32,10 @@ async function getInfo() {
       type: 'error',
       duration: 5 * 1000
     })
+    if (res.code === 1) {
+      console.log('deleting cookie~~~')
+      removeToken()
+    }
     return Promise.reject(new Error(res.msg || 'Error'))
   }
   return res
