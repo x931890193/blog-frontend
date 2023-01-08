@@ -17,7 +17,7 @@
               </a>
             </el-tooltip>
             <el-tooltip class="item" effect="dark" content="简历" placement="top">
-              <a :href="catchMeObj.job" target="_blank">
+              <a href="http://resume.mongona.com/" target="_blank">
                 <i class="fa fa-fw fa-file-word-o" />
               </a>
             </el-tooltip>
