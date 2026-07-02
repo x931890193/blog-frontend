@@ -5,14 +5,18 @@
     <div class="reward-description-title">赞赏方式：</div>
     <el-row :gutter="30">
       <el-col :span="12" class="donate-item">
-        <div class="donate-tip">
-          <img :src="wechatImage" alt="wechat pay">
+        <div class="donate-tip donate-tip-wechat">
+          <span class="reward-qr-frame">
+            <img :src="wechatImage" alt="wechat pay">
+          </span>
           <span>微信扫一扫</span>
         </div>
       </el-col>
       <el-col :span="12" class="donate-item">
-        <div class="donate-tip">
-          <img :src="aliPayImage" alt="alipay">
+        <div class="donate-tip donate-tip-alipay">
+          <span class="reward-qr-frame">
+            <img :src="aliPayImage" alt="alipay">
+          </span>
           <span>支付宝扫一扫</span>
         </div>
       </el-col>
@@ -105,15 +109,33 @@ export default {
 }
 .tRewardBox .donate-item img {
   width: 100%;
+  height: 100%;
   display: block;
-  height: auto;
+  object-fit: cover;
+  transition: transform 0.2s ease;
 }
 .tRewardBox .donate-item div {
   display: inline-block;
-  width: 160px;
-  padding: 0 6px;
+  width: 176px;
+  max-width: 100%;
+  padding: 0;
   text-align: center;
   box-sizing: border-box;
+}
+.tRewardBox .reward-qr-frame {
+  display: block;
+  width: 156px;
+  height: 156px;
+  max-width: 100%;
+  margin: 0 auto;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: inset 0 0 0 1px rgba(148, 163, 184, 0.18);
+}
+.tRewardBox .donate-tip-alipay img {
+  transform: scale(1.08);
+  transform-origin: center;
 }
 .tRewardBox .donate-item div span {
   display: inline-block;

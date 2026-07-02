@@ -13,12 +13,10 @@ router.beforeEach(async (to, from, next) => {
   // start progress bar
   NProgress.start()
   const hasToken = getToken()
-  // console.log('888')
-  // if (hasToken && !store.state.user.haslogin) {
-  if (hasToken) {
+  if (hasToken && !store.state.user.haslogin) {
     await store.dispatch('user/getInfo').catch(err => {
       Message({
-        message: err,
+        message: err.message || err,
         type: 'error',
         duration: 5 * 1000
       })

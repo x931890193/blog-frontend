@@ -5,19 +5,16 @@ import { Message as Message } from 'element-ui'
 const PATH = '/resource'
 
 function getResourceList(params) {
-  return request({
-    url: `${PATH}/getList`,
-    method: 'get',
-    params
+  return Promise.resolve({
+    code: 0,
+    list: [],
+    rows: [],
+    total: 0
   })
 }
 
 function uploadResource(data) {
-  return request({
-    url: `${PATH}/add`,
-    method: 'post',
-    data
-  })
+  return uploadFile(data)
 }
 
 async function uploadFile(data) {
@@ -42,11 +39,7 @@ async function uploadFile(data) {
 
 // 删除
 function deleteResource(data) {
-  return request({
-    url: `${PATH}/delete`,
-    method: 'post',
-    data
-  })
+  return Promise.reject(new Error('前台不支持删除资源'))
 }
 
 export default {

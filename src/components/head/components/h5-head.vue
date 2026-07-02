@@ -101,19 +101,21 @@ export default {
 
 <style lang="less">
 .hideMenu .el-submenu .el-menu {
-  background: #64609e;
+  background: rgba(15, 23, 42, 0.96);
 }
 .hideMenu li.el-menu-item,
 .hideMenu .el-submenu .el-submenu__title {
-  height: 40px;
-  line-height: 40px;
+  height: 44px;
+  line-height: 44px;
   color: #ffffff;
 }
 .mobileBox .searchBox .el-input__inner {
   display: block;
-  border-radius: 2px;
+  border-radius: 999px;
   border: none;
-  height: 25px;
+  height: 32px;
+  background: rgba(255, 255, 255, 0.96);
+  color: #1f2937;
 }
 .hideMenu ul.mlistmenu .el-submenu__icon-arrow,
 .mobileBox li.el-menu-item a {
@@ -124,7 +126,7 @@ export default {
 .hideMenu > ul li.el-menu-item.is-active,
 .hideMenu .el-submenu__title:focus,
 .hideMenu .el-submenu__title:hover {
-  background: #48456d;
+  background: rgba(64, 184, 197, 0.18);
 }
 </style>
 <style lang="less">
@@ -132,8 +134,8 @@ export default {
 
 .mobileBox {
   position: relative;
-  height: 38px;
-  line-height: 38px;
+  height: 54px;
+  line-height: 54px;
   color: #fff;
 }
 
@@ -141,7 +143,7 @@ export default {
   position: relative;
   width: 100%;
   height: 100%;
-  line-height: 38px;
+  line-height: 54px;
 }
 
 .hideMenu ul.mlistmenu {
@@ -151,20 +153,22 @@ export default {
   top: 100%;
   box-sizing: border-box;
   z-index: 999;
-  box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.12), 0 0 8px 0 rgba(0, 0, 0, 0.04);
+  box-shadow: 0 18px 38px rgba(15, 23, 42, 0.18);
   // background: #48456c;
-  background: #64609e;
+  background: rgba(15, 23, 42, 0.96);
   color: #fff;
   border-right: none;
+  border-radius: 0 0 8px 8px;
+  overflow: hidden;
 }
 
 .hideMenu > i {
   position: absolute;
-  left: 10px;
-  top: 12px;
+  left: 12px;
+  top: 17px;
   width: 30px;
   height: 30px;
-  font-size: 16px;
+  font-size: 18px;
   color: #fff;
 }
 .hideMenu .el-menu-item,
@@ -173,12 +177,12 @@ export default {
   color: #ffffff;
 }
 .mobileBox .searchBox {
-  padding-left: 40px;
+  padding: 11px 10px 0 48px;
   width: 100%;
   box-sizing: border-box;
   .el-input__suffix,
   .el-input__icon {
-    line-height: 25px;
+    line-height: 32px;
   }
 }
 

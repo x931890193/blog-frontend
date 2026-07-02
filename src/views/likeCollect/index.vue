@@ -33,8 +33,8 @@ export default {
     // 事件处理器
     routerChange() {
       const { like, collect } = this.$route.query
-      this.like = like
-      this.collect = collect
+      this.like = Number(like || 0)
+      this.collect = Number(collect || 0)
     }
   }
 }

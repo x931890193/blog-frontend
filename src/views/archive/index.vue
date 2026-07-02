@@ -98,39 +98,40 @@ export default {
   padding-left: 50px;
   padding-right: 50px;
   .archive-title {
-    // color: #444;
+    color: #111827;
     font-size: 25px;
     font-weight: 700;
     text-align: center;
-    padding: 30px 0;
+    padding: 18px 0 30px;
   }
   .archive-class-title {
     text-align: left;
-    font-size: 22px;
+    font-size: 20px;
     font-weight: 700;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
+    color: #111827;
   }
   .archive-class-all {
     padding: 0 10px;
-    margin-bottom: 40px;
+    margin-bottom: 34px;
     li {
       display: inline-block;
       // margin-right: 20px;
-      padding: 8px 10px;
+      padding: 8px 12px;
+      border-radius: 999px;
       a {
-        color: #ab3300;
+        color: #267c89;
         &:hover {
-          color: #ff4d00;
+          color: #e85d75;
         }
       }
       span {
-        color: #bbb;
+        color: #94a3b8;
       }
     }
     li.class-selected {
       // color: #fff;
-      background-color: rgba(171, 51, 0, 0.6);
-      border-radius: 4px;
+      background-color: #40b8c5;
       a,
       span {
         color: #fff;
@@ -146,9 +147,9 @@ export default {
       color: #333333;
       margin-right: 10px;
       a {
-        color: #333333;
+        color: #334155;
         &:hover {
-          color: #ff4d00;
+          color: #e85d75;
         }
       }
       span {
@@ -157,7 +158,7 @@ export default {
     }
     .archive-class-children-item-selected {
       a {
-        color: #ff4d00;
+        color: #e85d75;
       }
     }
   }
@@ -170,14 +171,14 @@ export default {
 <style lang="less">
 .archive-box {
   .el-timeline-item__tail {
-    border-left: 4px solid rgba(151, 223, 253, 0.1);
+    border-left: 4px solid rgba(64, 184, 197, 0.12);
     left: 3px;
   }
   .el-timeline-item__wrapper {
-    color: #97dffd;
+    color: #40b8c5;
   }
   .el-timeline-item__node {
-    background: #97dffd;
+    background: #40b8c5;
     width: 6px;
     height: 6px;
     left: 2px;
@@ -190,7 +191,7 @@ export default {
     }
   }
   .archive-class-item-time {
-    color: #00a7e0;
+    color: #267c89;
     font-size: 12px;
     margin-right: 10px;
   }
@@ -198,9 +199,9 @@ export default {
     font-size: 14px;
     font-weight: 400;
     line-height: inherit;
-    color: #444444;
+    color: #334155;
     &:hover {
-      color: #222;
+      color: #267c89;
     }
   }
 }

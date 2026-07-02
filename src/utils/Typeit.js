@@ -78,8 +78,7 @@ TheaterJS.prototype = {
   },
 
   isMistaking: function () {
-    var self = this
-    return self.current.experience < self.utils.randomFloat(0, 1.4)
+    return false
   },
 
   utils: {
@@ -402,7 +401,7 @@ const Typeit = (emId) => {
             prevChar：前一个字符。
             speech：所有的speech。
          ***/
-  var world = 'Life is a fucking movie！'
+  var world = 'Build with care.'
   theater.describe('Luke', 0.9, emId)
   theater
     .on('*', function (eventName, originalEvent, sceneName, arg) {
@@ -421,7 +420,7 @@ const Typeit = (emId) => {
       self.utils.removeClass(current, 'saying')
     })
   theater
-    .write('Luke:Hello!', 1000)
+    .write('Luke:Hello, ByteAlien.', 1000)
     .write('Luke:' + world, 500)
     .write({ name: 'call', args: [kill, true] })
     .write(function () {

@@ -6,7 +6,7 @@
         发表评论
         <small v-show="isRespond" class="tcolorm" @click="removeRespond">取消回复</small>
       </h3>
-      <form class="">
+      <form class="" @submit.prevent>
         <el-input
           v-model="textarea"
           type="textarea"
@@ -75,7 +75,7 @@
                 <div
                   v-if="haslogin"
                   class="tmsg-replay"
-                  @click="respondMsg({ leaveIndex: index, pIndex: -1, pid: item._id })"
+                  @click="respondMsg($event, { leaveIndex: index, pIndex: -1, pid: item._id })"
                 >
                   回复
                 </div>
@@ -115,7 +115,7 @@
                     <div
                       v-show="haslogin"
                       class="tmsg-replay"
-                      @click="respondMsg({leaveIndex: index, pIndex: cindex, pid: citem._id})"
+                      @click="respondMsg($event, {leaveIndex: index, pIndex: cindex, pid: citem._id})"
                     >
                       回复
                     </div>
@@ -155,7 +155,7 @@
                         <div
                           v-show="false"
                           class="tmsg-replay"
-                          @click="respondMsg({leaveIndex: index, pIndex: cindex, ppIndex:ccindex, pid: ccitem._id})"
+                          @click="respondMsg($event, {leaveIndex: index, pIndex: cindex, ppIndex:ccindex, pid: ccitem._id})"
                         >
                           回复
                         </div>
@@ -239,7 +239,8 @@ export default {
       pageSize: 10,
       current: 1,
       total: 0,
-      totalPage: 0
+      totalPage: 0,
+      sending: false
     }
   },
   watch: {
@@ -266,30 +267,37 @@ export default {
     },
     // 发送留言
     async sendMsg() {
-      console.log(this.leaveIndex, this.pIndex, this.pid)
+      if (this.sending) return
       if (this.textarea && this.textarea.trim()) {
-        const res = await commentAPI.add({
-          content: xss(this.textarea.trim()),
-          articleId: this.id,
-          parentId: this.isRespond ? this.pid : null
-        })
-        if (res.code === 0) {
-          this.textarea = ''
-          const timer = setTimeout(() => {
-            this.sendTip = '发送~'
-            clearTimeout(timer)
-          }, 1000)
-          if (this.isRespond) {
-            if (this.pIndex !== -1) {
-              this.list[this.leaveIndex].children[this.pIndex].children.push(res.data)
-            } else {
-              this.list[this.leaveIndex].children.push(res.data)
-            }
-          } else {
-            this.list.unshift(res.data)
+        const content = xss(this.textarea.trim())
+        this.sending = true
+        this.sendTip = '发送中...'
+        try {
+          const res = await commentAPI.add({
+            content,
+            articleId: String(this.id),
+            parentId: this.isRespond ? String(this.pid) : ''
+          })
+          if (res.code === 0) {
+            this.textarea = ''
+            this.appendComment(res.data || this.createFallbackComment(content))
+            this.total = (Number(this.total) || 0) + 1
+            this.removeRespond()
+            Message({
+              message: '评论已发布',
+              type: 'success',
+              duration: 2000
+            })
           }
-          this.total = this.list.length
-          this.removeRespond()
+        } catch (error) {
+          Message({
+            message: '评论发送失败，请稍后再试',
+            type: 'error',
+            duration: 5 * 1000
+          })
+        } finally {
+          this.sending = false
+          this.sendTip = '发送~'
         }
       } else {
         Message({
@@ -304,7 +312,7 @@ export default {
         }, 3000)
       }
     },
-    async respondMsg({ leaveIndex, pIndex, ppIndex, pid }) {
+    async respondMsg(event, { leaveIndex, pIndex, ppIndex, pid }) {
       // 回复留言
       if (!this.isRespond) {
         this.isRespond = true
@@ -322,7 +330,50 @@ export default {
       this.pIndex = -1
       this.ppIndex = -1
       this.isRespond = false
-      this.$refs.tmsgBox.insertBefore(this.$refs.respondBox, this.$refs.listDom)
+      if (this.$refs.tmsgBox && this.$refs.respondBox && this.$refs.listDom) {
+        this.$refs.tmsgBox.insertBefore(this.$refs.respondBox, this.$refs.listDom)
+      }
+    },
+    createFallbackComment(content) {
+      return {
+        _id: String(Date.now()),
+        avatar: '',
+        username: '游客',
+        label: '',
+        createDate: new Date().toISOString(),
+        content,
+        children: []
+      }
+    },
+    appendComment(comment) {
+      try {
+        if (this.isRespond) {
+          const parent = this.list[this.leaveIndex]
+          if (!parent) {
+            this.getList(true)
+            return
+          }
+          if (this.pIndex !== -1) {
+            const child = parent.children && parent.children[this.pIndex]
+            if (!child) {
+              this.getList(true)
+              return
+            }
+            const children = child.children || []
+            children.push(comment)
+            this.$set(child, 'children', children)
+          } else {
+            const children = parent.children || []
+            children.push(comment)
+            this.$set(parent, 'children', children)
+          }
+        } else {
+          this.list.unshift(comment)
+        }
+      } catch (error) {
+        console.error(error)
+        this.getList(true)
+      }
     },
     async getList(initData) {
       const options = {
@@ -333,14 +384,24 @@ export default {
         state: 1
       }
 
-      const res = await commentAPI.getList(options)
-      const { list, pagination } = res
-      this.list = initData ? list : this.list.concat(list)
-      this.total = this.list.length
-      this.totalPage = pagination.totalPage
-      this.current = pagination.currentPage
-      this.hasMore = pagination.totalPage > pagination.currentPage
-      this.listLoading = false
+      try {
+        const res = await commentAPI.getList(options)
+        const { list = [], pagination = {} } = res
+        this.list = initData ? list : this.list.concat(list)
+        this.total = pagination.countTotal || this.list.length
+        this.totalPage = pagination.totalPage || 0
+        this.current = pagination.currentPage || this.current
+        this.hasMore = (pagination.totalPage || 0) > (pagination.currentPage || this.current)
+      } catch (error) {
+        if (initData) {
+          this.list = []
+          this.total = 0
+          this.totalPage = 0
+          this.hasMore = false
+        }
+      } finally {
+        this.listLoading = false
+      }
     },
     addMoreFun() {
       // 查看更多
@@ -368,22 +429,23 @@ export default {
 <style lang="less" scoped>
 .tmsgBox {
   position: relative;
-  background: #fff;
-  padding: 15px;
+  background: transparent;
+  padding: 24px 0 4px;
   margin-bottom: 20px;
-  border-radius: 5px;
+  border-radius: 0;
 }
 .tmsg-respond h3 {
   font-size: 18px;
   font-weight: bold;
-  margin-bottom: 8px;
+  margin-bottom: 12px;
+  color: #111827;
 }
 .tmsg-respond h3 small {
   font-size: smaller;
   cursor: pointer;
 }
 .tmsg-respond textarea {
-  background: #f4f6f7;
+  background: #f8fafc;
   height: 100px;
   margin-bottom: 10px;
 }
@@ -393,13 +455,13 @@ export default {
 }
 .OwO .OwO-logo {
   position: relative;
-  border-radius: 4px;
-  color: #444;
+  border-radius: 999px;
+  color: #334155;
   display: inline-block;
   background: #fff;
-  border: 1px solid #ddd;
+  border: 1px solid #e2e8f0;
   font-size: 13px;
-  padding: 0 6px;
+  padding: 0 10px;
   cursor: pointer;
   height: 30px;
   box-sizing: border-box;
@@ -413,11 +475,12 @@ export default {
 .OwO .OwO-body {
   position: absolute;
   background: #fff;
-  border: 1px solid #ddd;
+  border: 1px solid #e2e8f0;
   z-index: 1;
   top: 29px;
-  border-radius: 0 4px 4px 4px;
+  border-radius: 0 8px 8px 8px;
   display: none;
+  box-shadow: 0 16px 34px rgba(15, 23, 42, 0.08);
 }
 .OwO-open .OwO-body {
   display: block;
@@ -438,9 +501,9 @@ export default {
   z-index: 1;
 }
 .OwO .OwO-items .OwO-item {
-  background: #f7f7f7;
+  background: #f8fafc;
   padding: 5px 10px;
-  border-radius: 5px;
+  border-radius: 8px;
   display: inline-block;
   margin: 0 10px 12px 0;
   transition: 0.3s;
@@ -449,19 +512,18 @@ export default {
   cursor: pointer;
 }
 .OwO .OwO-items .OwO-item:hover {
-  background: #eee;
-  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2),
-    0 1px 5px 0 rgba(0, 0, 0, 0.12);
+  background: #eefbfc;
+  box-shadow: none;
   animation: a 5s infinite ease-in-out;
   -webkit-animation: a 5s infinite ease-in-out;
 }
 .OwO .OwO-body .OwO-bar {
   width: 100%;
   height: 30px;
-  border-top: 1px solid #ddd;
-  background: #fff;
+  border-top: 1px solid #e2e8f0;
+  background: #f8fafc;
   border-radius: 0 0 4px 4px;
-  color: #444;
+  color: #334155;
 }
 .OwO .OwO-body .OwO-bar .OwO-packages li {
   display: inline-block;
@@ -905,29 +967,31 @@ export default {
 /*评论列表*/
 .tmsg-comments .tmsg-comments-tip {
   display: block;
-  border-left: 2px solid #363d4c;
-  padding: 0 10px;
-  margin: 40px 0;
-  font-size: 20px;
+  border-left: 3px solid #40b8c5;
+  padding: 2px 12px;
+  margin: 38px 0 22px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #111827;
 }
 .tmsg-commentlist {
   margin-bottom: 20px;
 }
 .tmsg-commentshow > .tmsg-commentlist {
-  border-bottom: 1px solid #e5eaed;
+  border-bottom: 1px solid #e2e8f0;
 }
 .tmsg-c-item {
-  border-top: 1px solid #e5eaed;
+  border-top: 1px solid #e2e8f0;
 }
 .tmsg-c-item article {
-  margin: 20px 0;
+  margin: 22px 0;
 }
 .tmsg-c-item article header {
   margin-bottom: 10px;
 }
 .tmsg-c-item article header img {
-  width: 65px;
-  height: 65px;
+  width: 52px;
+  height: 52px;
   border-radius: 50%;
   float: left;
   transition: all 0.4s ease-in-out;
@@ -942,26 +1006,26 @@ export default {
 .tmsg-c-item article header .i-name {
   font-size: 14px;
   margin: 5px 8px 7px 0;
-  color: #444;
+  color: #111827;
   font-weight: bold;
   display: inline-block;
 }
 .tmsg-c-item article header .i-class {
   display: inline-block;
-  margin-left: 10px;
-  background: #dff0d8;
-  color: #3c763d;
-  border-radius: 5px;
+  margin: 0 4px 4px 0;
+  background: #eefbfc;
+  color: #267c89;
+  border-radius: 999px;
   padding: 3px 6px;
   font-size: 12px;
   font-weight: 400;
 }
 .tmsg-c-item article header .i-time {
-  color: #aaa;
+  color: #94a3b8;
   font-size: 12px;
 }
 .tmsg-c-item article section {
-  margin-left: 80px;
+  margin-left: 67px;
   word-wrap: break-word;
   word-break: normal;
 }
@@ -971,13 +1035,15 @@ export default {
 .tmsg-c-item article section .tmsg-replay {
   margin: 10px 0;
   font-size: 12px;
-  color: #64609e;
+  color: #267c89;
   cursor: pointer;
+  font-weight: 600;
 }
 </style>
 <style>
 .tmsg-c-item article section p {
-  line-height: 1.3;
+  line-height: 1.7;
+  color: #334155;
 }
 .tmsg-c-item article section p img {
   vertical-align: middle;

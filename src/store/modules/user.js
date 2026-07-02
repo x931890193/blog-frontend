@@ -61,7 +61,12 @@ const actions = {
   // get user info
   getInfo({commit, state}) {
     return new Promise((resolve, reject) => {
-      userAPI.getInfo(state.token)
+      const token = getToken()
+      if (!token) {
+        return reject(new Error('未登录'))
+      }
+      commit('SET_TOKEN', token)
+      userAPI.getInfo()
         .then((data) => {
           if (!data) {
             return reject('Verification failed, please Login again.')

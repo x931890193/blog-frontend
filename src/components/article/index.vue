@@ -10,7 +10,10 @@
         <AButton icon="el-icon-d-arrow-right" @click="goDetail(item._id)">阅读全文</AButton>
       </div>
     </el-col>
-    <el-col v-if="listLoading" class="tcommonBox">
+    <el-col v-if="!list.length && !listLoading" class="article-empty tcommonBox">
+      暂时没有文章
+    </el-col>
+    <el-col v-if="list.length > 0 && listLoading" class="tcommonBox">
       <el-pagination
         class="pagination-list"
         background
@@ -74,13 +77,20 @@ export default {
         pageSize: this.pageSize,
         currentPage: this.current
       }
-      const res = await articleAPI.getList(options)
-      const { list, pagination } = res
-      this.list = list
-      this.total = pagination.total
-      this.totalPage = pagination.totalPage
-      this.current = pagination.currentPage
-      this.listLoading = pagination.totalPage > pagination.currentPage
+      try {
+        const res = await articleAPI.getList(options)
+        const { list, pagination } = res
+        this.list = list
+        this.total = pagination.countTotal || pagination.total || 0
+        this.totalPage = pagination.totalPage
+        this.current = pagination.currentPage
+        this.listLoading = pagination.totalPage > pagination.currentPage
+      } catch (e) {
+        this.list = []
+        this.total = 0
+        this.totalPage = 0
+        this.listLoading = false
+      }
       // this.loadingInstance && this.loadingInstance.close()
     },
 
@@ -106,23 +116,31 @@ export default {
 .sharelistBox {
   transition: all 0.5s ease-out;
   font-size: 15px;
-  min-height: 500px;
+  min-height: 0;
 }
 .pagination-list {
+  text-align: center;
+  padding: 10px 0 2px;
+}
+.article-empty {
+  color: #64748b;
+  font-weight: 600;
   text-align: center;
 }
 .pagination-list.el-pagination.is-background .el-pager li,
 .pagination-list.el-pagination.is-background .btn-next,
 .pagination-list.el-pagination.is-background .btn-prev {
-  border-radius: 5px;
+  border-radius: 999px;
+  background: #f1f5f9;
+  color: #475569;
 }
 .pagination-list.el-pagination.is-background .el-pager li:not(.disabled):hover {
-  color: #97dffd;
+  color: #267c89;
 }
 .pagination-list.el-pagination.is-background
   .el-pager
   li:not(.disabled).active {
-  background-color: #97dffd;
+  background-color: #40b8c5;
   color: #ffffff;
 }
 /* .pagination-list.el-pagination.is-background .el-pager li:not(.disabled):hover {
@@ -137,7 +155,21 @@ export default {
   }
 }
 .article-content-list {
-  // overflow: hidden;
-  // max-height: 300px;
+  position: relative;
+  max-height: 290px;
+  overflow: hidden;
+  cursor: pointer;
+  color: #334155;
+  line-height: 1.75;
+}
+.article-content-list::after {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 64px;
+  content: '';
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0), #ffffff 82%);
 }
 </style>

@@ -58,15 +58,16 @@ export default {
   font-size: 25px;
   font-weight: 700;
   text-align: center;
-  padding: 30px 0;
+  padding: 18px 0 30px;
+  color: #111827;
 }
 .tFriendsBox .tf-item {
   transition: all 0.3s ease-out;
-  border-radius: 5px;
+  border-radius: 8px;
   position: relative;
 }
 .tFriendsBox .tf-item:hover {
-  background: rgba(230, 244, 250, 0.5);
+  background: #f8fafc;
 }
 .tFriendsBox .tf-item a {
   display: block;
@@ -82,6 +83,8 @@ export default {
   left: 15px;
   cursor: pointer;
   object-fit: cover;
+  border: 3px solid #fff;
+  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.1);
 }
 .tFriendsBox .tf-item a h4 {
   cursor: pointer;
@@ -91,14 +94,16 @@ export default {
   font-size: 20px;
   padding-top: 15px;
   font-weight: bold;
+  color: #111827;
 }
 .tFriendsBox .tf-item a p {
   margin: 10px 0;
   font-size: 12px;
   line-height: 24px;
-  color: #999;
+  color: #64748b;
   cursor: pointer;
   white-space: nowrap;
   text-overflow: ellipsis;
+  overflow: hidden;
 }
 </style>

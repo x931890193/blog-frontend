@@ -22,14 +22,18 @@
       </div>
       <el-row :class="pdonate ? 'donate-body' : 'donate-body donate-body-show'" :gutter="30">
         <el-col :span="12" class="donate-item">
-          <div class="donate-tip">
-            <img :src="wechatImage" alt="wechat pay">
+          <div class="donate-tip donate-tip-wechat">
+            <span class="reward-qr-frame">
+              <img :src="wechatImage" alt="wechat pay">
+            </span>
             <span>微信扫一扫，向我赞赏</span>
           </div>
         </el-col>
         <el-col :span="12" class="donate-item">
-          <div class="donate-tip">
-            <img :src="aliPayImage" alt="alipay">
+          <div class="donate-tip donate-tip-alipay">
+            <span class="reward-qr-frame">
+              <img :src="aliPayImage" alt="alipay">
+            </span>
             <span>支付宝扫一扫，向我赞赏</span>
           </div>
         </el-col>
@@ -180,6 +184,9 @@ export default {
 </script>
 
 <style lang="less">
+.detailBox.tcommonBox {
+  padding-left: 100px;
+}
 .detailBox .viewdetail {
   margin: 10px 0;
   line-height: 24px;
@@ -199,14 +206,23 @@ export default {
 .dlikeBox,
 .dcollectBox {
   display: inline-block;
-  padding: 0 10px;
-  height: 35px;
-  color: #e26d6d;
-  line-height: 35px;
-  border-radius: 35px;
-  border: 1px solid #e26d6d;
+  padding: 0 14px;
+  height: 36px;
+  color: #267c89;
+  line-height: 36px;
+  border-radius: 999px;
+  border: 1px solid rgba(64, 184, 197, 0.36);
+  background: #eefbfc;
   cursor: pointer;
   margin-left: 10px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+.dlikeBox:hover,
+.dcollectBox:hover {
+  color: #fff;
+  background: #40b8c5;
+  border-color: #40b8c5;
 }
 
 /*赞赏*/
@@ -220,10 +236,11 @@ export default {
   height: 34px;
   line-height: 34px;
   color: #fff;
-  background: #e26d6d;
+  background: #e85d75;
   margin: 0 auto;
-  border-radius: 4px;
+  border-radius: 999px;
   cursor: pointer;
+  font-weight: 600;
 }
 .donate-body {
   display: none;
@@ -239,15 +256,33 @@ export default {
 }
 .donate-item img {
   width: 100%;
+  height: 100%;
   display: block;
-  height: auto;
+  object-fit: cover;
+  transition: transform 0.2s ease;
 }
 .donate-item div {
   display: inline-block;
-  width: 150px;
-  padding: 0 6px;
+  width: 176px;
+  max-width: 100%;
+  padding: 0;
   box-sizing: border-box;
   text-align: center;
+}
+.donate-item .reward-qr-frame {
+  display: block;
+  width: 156px;
+  height: 156px;
+  max-width: 100%;
+  margin: 0 auto;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: inset 0 0 0 1px rgba(148, 163, 184, 0.18);
+}
+.donate-item .donate-tip-alipay img {
+  transform: scale(1.08);
+  transform-origin: center;
 }
 .donate-item div span {
   display: inline-block;
@@ -267,5 +302,13 @@ export default {
 }
 .detail-loading {
   height: 500px;
+}
+@media screen and (max-width: 800px) {
+  .detailBox.tcommonBox {
+    padding-left: 18px;
+  }
+  .dshareBox {
+    justify-content: center;
+  }
 }
 </style>

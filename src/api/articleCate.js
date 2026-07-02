@@ -24,28 +24,21 @@ async function getAllList(params) {
   return res
 }
 
-function getInfo(params) {
-  return request({
-    url: `${PATH}/getInfo`,
-    method: 'get',
-    params
-  })
+async function getInfo(params = {}) {
+  const res = await getAllList()
+  const id = Number(params.id || params.categoryId)
+  return {
+    code: 0,
+    obj: res.rows.find(item => Number(item.id) === id) || null
+  }
 }
 
 function add(data) {
-  return request({
-    url: `${PATH}/add`,
-    method: 'post',
-    data
-  })
+  return Promise.reject(new Error('分类新增请在管理后台操作'))
 }
 
 function edit(data) {
-  return request({
-    url: `${PATH}/edit`,
-    method: 'post',
-    data
-  })
+  return Promise.reject(new Error('分类编辑请在管理后台操作'))
 }
 
 export default {

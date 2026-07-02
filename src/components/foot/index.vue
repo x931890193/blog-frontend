@@ -1,26 +1,22 @@
 <template>
   <div class="footBack footBackQian">
     <div class="fcontainer">
-      <p>
-        <span> 当前在线人数：{{ this.$store.state.user.online || '获取中～' }} </span>
-      </p>
-      <p>
-        网站已苟活：
-        <span>{{ longTime }}</span>
-        <span class="timeJump">(●'◡'●)ﾉ♥</span>
-      </p>
-      <p>
-        <a :href="github" target="_blank">GitHub</a>.
-        Theme By
-        <a href="https://www.mangoya.cn/#/" target="_blank">Aimee1608</a>.
-      </p>
-      <p>
-        © 2022
-        <span>Power by</span>
-        <img class="fheart" src="./../../assets/img/heart02.png"/>
-        <span>{{ author }}</span>
-        {{ beian }}
-      </p>
+      <div class="footer-primary">
+        <span>© {{ currentYear }} {{ author }}</span>
+        <span class="footer-separator" />
+        <a
+          href="https://beian.miit.gov.cn/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {{ icpText }}
+        </a>
+      </div>
+      <div class="footer-meta">
+        <span>在线 {{ this.$store.state.user.online || '获取中' }}</span>
+        <span>已运行 {{ longTime }}</span>
+        <a v-if="github" :href="github" target="_blank" rel="noopener noreferrer">GitHub</a>
+      </div>
     </div>
   </div>
 </template>
@@ -33,9 +29,14 @@ export default {
   data() {
     return {
       longTime: 0,
-      author: 'sato',
-      github: 'https://',
-      beian: '备案号～'
+      author: 'ByteAlien',
+      github: 'https://github.com/x931890193',
+      icpText: '渝ICP备18016573号-4'
+    }
+  },
+  computed: {
+    currentYear() {
+      return new Date().getFullYear()
     }
   },
   mounted() {
@@ -58,9 +59,15 @@ export default {
     },
     async siteInfo() {
       const siteData = await siteApi.getSite()
-      this.author = siteData.author
-      this.github = siteData.github
-      this.beian = siteData.beian
+      this.author = siteData.author || 'ByteAlien'
+      this.github = siteData.github || 'https://github.com/x931890193'
+      this.icpText = this.formatIcpText(siteData.beian)
+    },
+    formatIcpText(value) {
+      if (!value) return '渝ICP备18016573号-4'
+      const text = String(value).replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim()
+      const match = text.match(/[\u4e00-\u9fa5]ICP备[\d-]+号(?:-\d+)?/)
+      return match ? match[0] : text
     }
   }
 }
@@ -68,10 +75,10 @@ export default {
 
 <style scoped lang="less">
 .footBack {
-  color: #888;
-  margin-top: -10px;
-  font-size: 12px;
-  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.72);
+  margin-top: 24px;
+  font-size: 13px;
+  line-height: 1.7;
   text-align: center;
   width: 100%;
   min-height: 50px;
@@ -80,64 +87,49 @@ export default {
 
 .footBack .fcontainer {
   width: 100%;
-  background: #232323;
+  background: rgba(12, 19, 31, 0.96);
   /*top:294px;*/
   /*left:0;*/
   /*position: absolute;*/
-  padding: 15px 10px 10px 10px;
+  padding: 24px 16px 22px;
   box-sizing: border-box;
   /*z-index: 1;*/
 }
 
-.footBack p {
-  margin: 5px 0;
-  z-index: 3;
+.footer-primary,
+.footer-meta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.footer-primary {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.footer-meta {
+  margin-top: 8px;
+  color: rgba(255, 255, 255, 0.56);
+}
+
+.footer-separator {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.34);
 }
 
 .footBack a {
-  color: #795548;
+  color: #72d7e3;
   z-index: 3;
+  transition: color 0.2s ease;
 }
 
 .footBack a:hover {
-  color: #000;
-}
-
-/*心脏呼吸*/
-.footBack .fheart {
-  width: 25px;
-  height: 25px;
-  margin-top: -10px;
-  top: 5px;
-  position: relative;
-  /*padding-top:0px;*/
-  vertical-align: baseline;
-  -webkit-animation: heartScale 1.33s ease-in-out infinite;
-  animation: heartScale 1.33s ease-in-out infinite;
-}
-
-@keyframes heartScale {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(0.8);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-
-@-webkit-keyframes heartScale {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(0.8);
-  }
-  100% {
-    transform: scale(1);
-  }
+  color: #ff8aa1;
 }
 
 /*时间跳动*/

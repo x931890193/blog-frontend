@@ -6,10 +6,7 @@ import {removeToken} from '@/utils/auth'
 const PATH = '/user'
 
 function login() {
-  return request({
-    url: `${PATH}/login`,
-    method: 'get'
-  })
+  return Promise.resolve()
 }
 
 function logout() {
@@ -42,10 +39,7 @@ async function getInfo() {
 }
 
 function getWebBlogUser() {
-  return request({
-    url: `${PATH}/getWebBlogUser`,
-    method: 'get'
-  })
+  return getInfo()
 }
 
 async function edit(data) {
@@ -83,7 +77,7 @@ async function edit(data) {
 
 async function getLinkList() {
   const buf = await request({
-    url: `link/list`,
+    url: `/link/list`,
     method: 'get'
   })
   const LinkListResp = protoRoot.lookupType('LinkListResp')

@@ -75,7 +75,20 @@
 export default {
   name: 'PCHead',
   components: {},
-  props: ['activeIndex', 'projectList', 'haslogin'],
+  props: {
+    activeIndex: {
+      type: String,
+      default: '/'
+    },
+    projectList: {
+      type: Array,
+      default: () => []
+    },
+    haslogin: {
+      type: Boolean,
+      default: false
+    }
+  },
   data() {
     return {
       searchkey: ''
@@ -110,22 +123,25 @@ export default {
 .headBox .el-menu {
   background: transparent;
   border-bottom: none !important;
+  min-height: 54px;
 }
 .headBox .el-submenu__title i,
 .headBox .el-menu-item i {
-  color: #ffffff;
+  color: rgba(255, 255, 255, 0.9);
 }
 .headBox .el-menu-demo li.el-menu-item,
 .headBox .el-menu--horizontal .el-submenu .el-submenu__title {
-  height: 38px;
-  line-height: 38px;
+  height: 54px;
+  line-height: 54px;
   border-bottom: none !important;
+  font-size: 14px;
+  letter-spacing: 0;
 }
 
 .headBox .el-submenu li.el-menu-item {
-  height: 38px;
-  line-height: 38px;
-  background-color: #48456c;
+  height: 42px;
+  line-height: 42px;
+  background-color: transparent;
 }
 .headBox .el-submenu li.el-menu-item a {
   display: inline-block;
@@ -137,28 +153,32 @@ export default {
 }
 
 .headBox .el-menu--horizontal .el-submenu > .el-menu {
-  top: 38px;
+  top: 54px;
   border: none;
-  padding: 0;
+  padding: 6px;
+  overflow: hidden;
+  border-radius: 0 0 8px 8px;
+  background: rgba(15, 23, 42, 0.92);
+  box-shadow: 0 16px 36px rgba(15, 23, 42, 0.18);
 }
 
 .headBox > ul.el-menu li.el-menu-item:hover,
 .headBox > ul.el-menu li.el-submenu:hover div.el-submenu__title,
 .headBox > ul.el-menu li.el-submenu .el-submenu__title:hover {
-  background-color: #48456c;
+  background-color: rgba(255, 255, 255, 0.12);
   border-bottom: none;
 }
 
 .headBox > ul.el-emnu li.el-submenu ul.el-menu,
 .headBox > ul.el-emnu li.el-submenu .el-menu .el-menu-item {
-  background-color: #48456c;
+  background-color: transparent;
 }
 
 .headBox > ul.el-menu li.el-submenu ul.el-menu .el-menu-item:hover {
-  background-color: #64609e;
+  background-color: rgba(64, 184, 197, 0.18);
 }
 .headBox > ul.el-menu .el-menu--popup {
-  background-color: #48456c;
+  background-color: rgba(15, 23, 42, 0.92);
 }
 
 .headBox .pcsearchbox .el-input {
@@ -166,17 +186,18 @@ export default {
 }
 
 .headBox .el-input__inner {
-  height: 30px;
+  height: 34px;
   border: none;
-  background: #fff;
+  background: rgba(255, 255, 255, 0.96);
   /*border: 1px solid #333;*/
-  border-radius: 2px;
-  padding-right: 10px;
+  border-radius: 999px;
+  padding-right: 12px;
+  color: #1f2937;
 }
 
 .headBox li.is-active,
 .headBox .el-menu--horizontal > .el-menu-item:not(.is-disabled):focus {
-  background-color: rgba(73, 69, 107, 0.7);
+  background-color: rgba(64, 184, 197, 0.2);
 }
 </style>
 
@@ -190,10 +211,10 @@ export default {
   max-width: 170px;
   /*min-width: 30px;*/
   height: 100%;
-  line-height: 38px;
+  line-height: 54px;
   position: absolute;
   top: 0;
-  right: 0;
+  right: 80px;
   cursor: pointer;
 }
 
@@ -206,16 +227,17 @@ export default {
 .headBox .pcsearchbox i.pcsearchicon {
   color: #fff;
   padding-left: 10px;
+  opacity: 0.9;
 }
 
 .headBox .pcsearchbox .pcsearchinput {
   width: 180px;
-  padding: 10px 20px 10px 20px;
-  background: rgba(40, 42, 44, 0.6);
-  border-radius: 0 0 2px 2px;
+  padding: 12px;
+  background: rgba(15, 23, 42, 0.86);
+  border-radius: 0 0 8px 8px;
   position: absolute;
   right: 0;
-  top: 38px;
+  top: 54px;
   opacity: 0;
   visibility: hidden;
   /*transform: scaleX(0);*/
@@ -231,9 +253,9 @@ export default {
 
 .headBox .userInfo {
   height: 100%;
-  line-height: 38px;
+  line-height: 54px;
   position: absolute;
-  right: 30px;
+  right: 16px;
   top: 0;
   color: #fff;
 }
@@ -245,7 +267,7 @@ export default {
 }
 
 .headBox .userInfo a:hover {
-  color: #48456c;
+  color: #72d7e3;
 }
 
 .headBox .nologin {
@@ -265,8 +287,8 @@ export default {
 }
 
 .headBox .haslogin ul {
-  background: rgba(40, 42, 44, 0.6);
-  padding: 5px 10px;
+  background: rgba(15, 23, 42, 0.9);
+  padding: 6px 12px;
   position: absolute;
   right: 0;
   visibility: hidden;
@@ -275,7 +297,7 @@ export default {
 }
 
 .headBox .haslogin ul li {
-  border-bottom: 1px solid #48456c;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.24);
 }
 
 .headBox .haslogin ul li:last-child {

@@ -16,7 +16,6 @@
       </el-row>
     </div>
     <Foot />
-    <canvas id="evanyou" ref="evanyou" class="evanyou" />
   </div>
 </template>
 
@@ -24,8 +23,6 @@
 import Head from './components/head/index'
 import Foot from './components/foot/index'
 import Right from './components/right/index'
-import CursorSpecialEffects from '@/utils/cursor-effect'
-import evanyouFun from '@/utils/evanyou'
 import {mapActions} from 'vuex'
 export default {
   name: 'App',
@@ -48,13 +45,6 @@ export default {
   },
   created() {
     this.initWebSocket()
-  },
-  mounted() {
-    setTimeout(() => {
-      const cursorSpecialEffects = new CursorSpecialEffects()
-      cursorSpecialEffects.init()
-      evanyouFun(this.$refs.evanyou)
-    }, 800)
   },
   methods: {
     ...mapActions('user', ['recordOnline']),
@@ -145,10 +135,10 @@ export default {
 
 <style lang="less">
 @import url('@/assets/css/reset.less');
-// 原博客主提色
-@tcolors: #97dffd; //按钮和标签颜色
-@tcolorm: #64609e; //分类的选中的颜色
-@tcolord: #48456d; //按钮hover 的颜色
+// 主色
+@tcolors: #40b8c5; //按钮和标签颜色
+@tcolorm: #e85d75; //分类的选中的颜色
+@tcolord: #267c89; //按钮hover 的颜色
 
 // /***** 粉红色主题****/
 // @tcolors:#97dffd;//按钮和标签颜色
@@ -165,64 +155,64 @@ export default {
 // @tcolorm:#64609E;//分类的选中的颜色
 // @tcolord:#48456D;//按钮hover 的颜色
 body {
-  font-family: Arial, 'STHeiti', Helvetica, sans-serif;
-  background: #efefef;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, 'STHeiti', Helvetica, sans-serif;
+  background: #f6f8fb;
   font-size: 14px;
-  color: #444 !important;
+  color: #1f2937 !important;
   min-height: 100vh;
   width: 100%;
   overflow-x: hidden;
   -webkit-overflow-x: hidden;
   -webkit-tap-highlight-color: transparent;
-  cursor: url('./assets/img/cursor.png'), auto;
 }
+
+* {
+  box-sizing: border-box;
+}
+
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   width: 100%;
   overflow-x: hidden;
   -webkit-overflow-x: hidden;
-  color: #444;
+  color: #1f2937;
 }
 .container {
-  max-width: 80%;
+  max-width: 1180px;
   margin: 0 auto;
-  padding: 0 10px;
+  padding: 0 18px;
   /* overflow-x: hidden; */
   /* -webkit-overflow-x: hidden; */
 }
 
-.evanyou {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  z-index: -1;
-  background: #efefef;
-}
 /* //时间和标题 */
 .s-round-date {
   position: absolute;
-  top: -20px;
-  left: -35px;
-  height: 60px;
-  width: 70px;
-  padding-top: 10px;
-  border-radius: 100px;
-  color: #fff;
-  background: @tcolors;
-  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2),
-    0 1px 5px 0 rgba(0, 0, 0, 0.12);
+  top: 22px;
+  left: 22px;
+  height: 58px;
+  width: 58px;
+  padding-top: 7px;
+  border-radius: 8px;
+  color: #267c89;
+  background: #eefbfc;
+  border: 1px solid rgba(64, 184, 197, 0.24);
+  box-shadow: none;
 }
 .s-round-date span {
   text-align: center;
   display: block;
 }
 .s-round-date .day {
-  font-size: 30px;
+  font-size: 24px;
   font-weight: 700;
+  line-height: 1.05;
+}
+.s-round-date .month {
+  color: #64748b;
+  font-size: 12px;
 }
 /* // 相同的标题副标题 */
 .tcommonBox {
@@ -231,10 +221,21 @@ body {
   word-break: break-all;
   position: relative;
   background: #fff;
-  padding: 15px;
-  border-radius: 5px;
-  margin-bottom: 40px;
+  padding: 26px 28px 24px;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  border-radius: 8px;
+  margin-bottom: 24px;
   font-size: 15px;
+  box-shadow: 0 10px 26px rgba(15, 23, 42, 0.045);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+.s-item.tcommonBox {
+  padding-left: 100px;
+}
+.tcommonBox:hover {
+  transform: translateY(-2px);
+  border-color: rgba(64, 184, 197, 0.28);
+  box-shadow: 0 14px 32px rgba(15, 23, 42, 0.07);
 }
 
 // .s-item .article-content {
@@ -249,9 +250,9 @@ body {
 //   line-height: 24px;
 // }
 .s-item .viewdetail {
-  margin: 10px 0;
+  margin: 18px 0 2px;
   line-height: 24px;
-  text-align: center;
+  text-align: left;
 }
 .s-item .viewdetail a {
   color: #fff;
@@ -294,6 +295,7 @@ body {
 }
 .tcolors-bg:hover {
   background: @tcolord;
+  box-shadow: 0 8px 18px rgba(38, 124, 137, 0.16);
 }
 
 .paginationBox li.active {
@@ -358,35 +360,24 @@ body {
 
 //公共标签
 .ui.label {
-  border-color: @tcolors;
-  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2),
-    0 1px 5px 0 rgba(0, 0, 0, 0.12);
-  background-color: @tcolors;
-  margin: 5px 0 15px 2px;
-  font-size: 14px;
+  border: 1px solid rgba(64, 184, 197, 0.22);
+  box-shadow: none;
+  background-color: #eefbfc;
+  margin: 8px 0 14px 0;
+  font-size: 13px;
   position: relative;
-  left: -32px;
-  border-radius: 0 4px 4px 0;
-  padding: 7px 11.2px 7px 32px;
+  left: 0;
+  border-radius: 999px;
+  padding: 7px 12px;
   display: inline-block;
-  color: #fff;
+  color: #267c89;
+  font-weight: 600;
 }
 .ui.label::after {
-  position: absolute;
-  content: '';
-  top: 100%;
-  left: 0;
-  border-top: 0 solid transparent;
-  border-right-width: 1em;
-  border-right-color: @tcolord;
-  border-right-style: solid;
-  border-bottom: 1em solid transparent;
-  border-left: 0 solid transparent;
-  width: 0;
-  height: 0;
+  display: none;
 }
 .ui.label a {
-  color: #fff;
+  color: #267c89;
   line-height: 100%;
 }
 
@@ -441,15 +432,30 @@ body {
     display: block;
   }
   .headImgBox {
-    height: 450px !important;
-    margin-bottom: -140px !important;
+    height: 390px !important;
+    margin-bottom: 28px !important;
   }
   .h-information {
-    display: none;
+    display: block;
+    top: 250px !important;
+    padding: 0 18px !important;
+  }
+  .h-information img {
+    width: 64px !important;
+    height: 64px !important;
+    border-width: 3px !important;
+  }
+  .h-description {
+    margin-top: 10px !important;
+  }
+  .h-description span {
+    font-size: 15px !important;
+    line-height: 1.45 !important;
   }
   .headImgBox .scene {
-    font-size: 50px !important;
-    top: 120px;
+    font-size: 30px !important;
+    top: 112px !important;
+    line-height: 1.2 !important;
   }
 }
 
@@ -465,13 +471,34 @@ body {
   .container {
     max-width: 100% !important;
     margin: 0 auto;
+    padding: 0 14px;
   }
   .s-round-date {
-    width: 0 !important;
+    position: static;
+    width: auto !important;
+    height: auto;
+    display: inline-flex;
+    align-items: baseline;
+    gap: 4px;
+    padding: 6px 9px;
+    margin-bottom: 12px;
+    border-radius: 999px;
+  }
+  .s-round-date .month,
+  .s-round-date .day {
+    font-size: 12px;
+    line-height: 1;
+  }
+  .tcommonBox {
+    padding: 18px;
+    margin-bottom: 18px;
+  }
+  .s-item.tcommonBox {
+    padding-left: 18px;
   }
   .ui.label {
-    left: -18px !important;
-    padding-left: 18px !important;
+    left: 0 !important;
+    padding-left: 12px !important;
   }
   .ui.label::after {
     border: none !important;
@@ -492,16 +519,6 @@ body {
   .headBox li.el-menu-item,
   .headBox .el-submenu__title {
     padding: 0 12px;
-  }
-}
-@media screen and (max-width: 990px) {
-  // .hidden{
-  //     display: none!important;
-  // }
-  div.rightlistBox .rs2.fixed {
-    position: relative;
-    top: 0;
-    width: auto;
   }
 }
 @media screen and (min-width: 991px) {

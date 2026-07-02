@@ -52,10 +52,9 @@ async function add(data) {
 }
 
 function getInfo(params) {
-  return request({
-    url: `${PATH}/info`,
-    method: 'get',
-    params: params
+  return Promise.resolve({
+    code: 0,
+    obj: null
   })
 }
 

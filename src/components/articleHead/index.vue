@@ -83,23 +83,32 @@ export default {
   word-break: break-all;
 }
 .article-head .article-head-title {
-  padding: 20px 0 10px 0;
-  font-size: 25px;
+  padding: 0 0 10px;
+  font-size: 24px;
   font-weight: 700;
-  text-align: center;
-  line-height: 30px;
+  text-align: left;
+  line-height: 1.35;
+  letter-spacing: 0;
+}
+.article-head .article-head-title a {
+  color: #111827;
+  transition: color 0.2s ease;
+}
+.article-head .article-head-title a:hover {
+  color: #267c89;
 }
 .article-head .article-head-count {
-  margin: 10px 0;
+  margin: 0 0 8px;
   line-height: 24px;
-  text-align: center;
-  color: #555;
-  font-size: 14px;
+  text-align: left;
+  color: #64748b;
+  font-size: 13px;
   .rateBox {
     display: inline-block;
   }
   i {
-    font-size: 16px;
+    font-size: 14px;
+    color: #94a3b8;
   }
 }
 .article-description {

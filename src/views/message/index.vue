@@ -46,7 +46,8 @@ export default {
     font-size: 25px;
     font-weight: 700;
     text-align: center;
-    padding: 30px 0;
+    padding: 18px 0 30px;
+    color: #111827;
   }
   // .aboutmeImg {
   //   max-width: 100%;
@@ -60,8 +61,9 @@ export default {
 }
 .tMSGbox section h2 {
   font-weight: bold;
-  line-height: 24px;
-  padding: 10px 20px;
+  line-height: 1.7;
+  padding: 8px 20px;
+  color: #334155;
 }
 .tMSGbox section div {
   margin: 15px 0;

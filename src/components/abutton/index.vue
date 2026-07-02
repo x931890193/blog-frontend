@@ -48,14 +48,17 @@ export default {
 <style>
 .abutton {
   color: #fff;
-  font-size: 12px;
-  padding: 0 10px;
-  line-height: 30px;
-  height: 30px;
-  border-radius: 5px;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 0 14px;
+  line-height: 34px;
+  height: 34px;
+  border-radius: 999px;
   cursor: pointer;
   box-sizing: border-box;
   text-align: center;
+  letter-spacing: 0;
+  box-shadow: 0 8px 18px rgba(64, 184, 197, 0.16);
 }
 .abutton-large {
   display: block;

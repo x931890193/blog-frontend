@@ -187,6 +187,26 @@
             "os": {
               "type": "string",
               "id": 12
+            },
+            "display": {
+              "type": "bool",
+              "id": 13
+            },
+            "good": {
+              "type": "uint32",
+              "id": 14
+            },
+            "bad": {
+              "type": "uint32",
+              "id": 15
+            },
+            "parentId": {
+              "type": "uint32",
+              "id": 16
+            },
+            "url": {
+              "type": "string",
+              "id": 17
             }
           }
         },
@@ -1131,6 +1151,14 @@
         },
         "LinkRequest": {
           "fields": {
+            "id": {
+              "type": "uint32",
+              "id": 1
+            },
+            "showLink": {
+              "type": "bool",
+              "id": 2
+            },
             "title": {
               "type": "string",
               "id": 3
@@ -1174,6 +1202,481 @@
             "rows": {
               "rule": "repeated",
               "type": "LinkBase",
+              "id": 4
+            }
+          }
+        },
+        "AdminUserBase": {
+          "fields": {
+            "id": {
+              "type": "uint32",
+              "id": 1
+            },
+            "userName": {
+              "type": "string",
+              "id": 2
+            },
+            "nickName": {
+              "type": "string",
+              "id": 3
+            },
+            "email": {
+              "type": "string",
+              "id": 4
+            },
+            "phone": {
+              "type": "string",
+              "id": 5
+            },
+            "status": {
+              "type": "string",
+              "id": 6
+            },
+            "avatar": {
+              "type": "string",
+              "id": 7
+            },
+            "isAdmin": {
+              "type": "bool",
+              "id": 8
+            },
+            "receiveUpdate": {
+              "type": "bool",
+              "id": 9
+            },
+            "githubUrl": {
+              "type": "string",
+              "id": 10
+            },
+            "createTime": {
+              "type": "string",
+              "id": 11
+            },
+            "lastLogin": {
+              "type": "string",
+              "id": 12
+            },
+            "roleIds": {
+              "rule": "repeated",
+              "type": "uint32",
+              "id": 13
+            },
+            "sex": {
+              "type": "string",
+              "id": 14
+            },
+            "remark": {
+              "type": "string",
+              "id": 15
+            }
+          }
+        },
+        "AdminUserListResp": {
+          "fields": {
+            "code": {
+              "type": "uint32",
+              "id": 1
+            },
+            "msg": {
+              "type": "string",
+              "id": 2
+            },
+            "total": {
+              "type": "uint32",
+              "id": 3
+            },
+            "rows": {
+              "rule": "repeated",
+              "type": "AdminUserBase",
+              "id": 4
+            }
+          }
+        },
+        "AdminUserOneResp": {
+          "fields": {
+            "code": {
+              "type": "uint32",
+              "id": 1
+            },
+            "msg": {
+              "type": "string",
+              "id": 2
+            },
+            "data": {
+              "type": "AdminUserBase",
+              "id": 3
+            },
+            "roleIds": {
+              "rule": "repeated",
+              "type": "uint32",
+              "id": 4
+            }
+          }
+        },
+        "AdminUserRequest": {
+          "fields": {
+            "id": {
+              "type": "uint32",
+              "id": 1
+            },
+            "userName": {
+              "type": "string",
+              "id": 2
+            },
+            "nickName": {
+              "type": "string",
+              "id": 3
+            },
+            "email": {
+              "type": "string",
+              "id": 4
+            },
+            "phone": {
+              "type": "string",
+              "id": 5
+            },
+            "password": {
+              "type": "string",
+              "id": 6
+            },
+            "status": {
+              "type": "string",
+              "id": 7
+            },
+            "avatar": {
+              "type": "string",
+              "id": 8
+            },
+            "receiveUpdate": {
+              "type": "bool",
+              "id": 9
+            },
+            "isAdmin": {
+              "type": "bool",
+              "id": 10
+            }
+          }
+        },
+        "AdminPasswordRequest": {
+          "fields": {
+            "id": {
+              "type": "uint32",
+              "id": 1
+            },
+            "password": {
+              "type": "string",
+              "id": 2
+            }
+          }
+        },
+        "AdminRoleBase": {
+          "fields": {
+            "id": {
+              "type": "uint32",
+              "id": 1
+            },
+            "roleName": {
+              "type": "string",
+              "id": 2
+            },
+            "roleKey": {
+              "type": "string",
+              "id": 3
+            },
+            "status": {
+              "type": "string",
+              "id": 4
+            },
+            "createTime": {
+              "type": "string",
+              "id": 5
+            }
+          }
+        },
+        "AdminRoleListResp": {
+          "fields": {
+            "code": {
+              "type": "uint32",
+              "id": 1
+            },
+            "msg": {
+              "type": "string",
+              "id": 2
+            },
+            "total": {
+              "type": "uint32",
+              "id": 3
+            },
+            "rows": {
+              "rule": "repeated",
+              "type": "AdminRoleBase",
+              "id": 4
+            }
+          }
+        },
+        "AdminTableRow": {
+          "fields": {
+            "id": {
+              "type": "uint32",
+              "id": 1
+            },
+            "title": {
+              "type": "string",
+              "id": 2
+            },
+            "name": {
+              "type": "string",
+              "id": 3
+            },
+            "description": {
+              "type": "string",
+              "id": 4
+            },
+            "content": {
+              "type": "string",
+              "id": 5
+            },
+            "type": {
+              "type": "string",
+              "id": 6
+            },
+            "status": {
+              "type": "string",
+              "id": 7
+            },
+            "createBy": {
+              "type": "string",
+              "id": 8
+            },
+            "createTime": {
+              "type": "string",
+              "id": 9
+            },
+            "url": {
+              "type": "string",
+              "id": 10
+            },
+            "headerImg": {
+              "type": "string",
+              "id": 11
+            },
+            "display": {
+              "type": "bool",
+              "id": 12
+            },
+            "target": {
+              "type": "bool",
+              "id": 13
+            },
+            "click": {
+              "type": "uint32",
+              "id": 14
+            },
+            "ip": {
+              "type": "string",
+              "id": 15
+            },
+            "location": {
+              "type": "string",
+              "id": 16
+            },
+            "browser": {
+              "type": "string",
+              "id": 17
+            },
+            "os": {
+              "type": "string",
+              "id": 18
+            },
+            "msg": {
+              "type": "string",
+              "id": 19
+            },
+            "method": {
+              "type": "string",
+              "id": 20
+            },
+            "path": {
+              "type": "string",
+              "id": 21
+            },
+            "lastAccessUrl": {
+              "type": "string",
+              "id": 22
+            },
+            "lastAccessTime": {
+              "type": "string",
+              "id": 23
+            },
+            "interceptCount": {
+              "type": "uint32",
+              "id": 24
+            },
+            "roleName": {
+              "type": "string",
+              "id": 25
+            },
+            "roleKey": {
+              "type": "string",
+              "id": 26
+            },
+            "roleSort": {
+              "type": "uint32",
+              "id": 27
+            },
+            "remark": {
+              "type": "string",
+              "id": 28
+            },
+            "menuIds": {
+              "rule": "repeated",
+              "type": "uint32",
+              "id": 29
+            },
+            "jobName": {
+              "type": "string",
+              "id": 30
+            },
+            "beanName": {
+              "type": "string",
+              "id": 31
+            },
+            "methodName": {
+              "type": "string",
+              "id": 32
+            },
+            "methodParams": {
+              "type": "string",
+              "id": 33
+            },
+            "cronExpression": {
+              "type": "string",
+              "id": 34
+            },
+            "enabled": {
+              "type": "bool",
+              "id": 35
+            },
+            "bucket": {
+              "type": "string",
+              "id": 36
+            },
+            "suffix": {
+              "type": "string",
+              "id": 37
+            },
+            "size": {
+              "type": "string",
+              "id": 38
+            },
+            "userName": {
+              "type": "string",
+              "id": 40
+            },
+            "requestMethod": {
+              "type": "string",
+              "id": 41
+            },
+            "businessType": {
+              "type": "string",
+              "id": 42
+            },
+            "operateName": {
+              "type": "string",
+              "id": 43
+            },
+            "cost": {
+              "type": "uint32",
+              "id": 44
+            },
+            "param": {
+              "type": "string",
+              "id": 45
+            },
+            "jsonResult": {
+              "type": "string",
+              "id": 46
+            },
+            "errorMsg": {
+              "type": "string",
+              "id": 47
+            },
+            "success": {
+              "type": "bool",
+              "id": 48
+            },
+            "exception": {
+              "type": "string",
+              "id": 49
+            },
+            "result": {
+              "type": "string",
+              "id": 50
+            },
+            "roleIds": {
+              "rule": "repeated",
+              "type": "uint32",
+              "id": 51
+            },
+            "nickName": {
+              "type": "string",
+              "id": 52
+            },
+            "avatar": {
+              "type": "string",
+              "id": 53
+            },
+            "parentId": {
+              "type": "uint32",
+              "id": 54
+            },
+            "good": {
+              "type": "uint32",
+              "id": 55
+            },
+            "bad": {
+              "type": "uint32",
+              "id": 56
+            },
+            "articleId": {
+              "type": "uint32",
+              "id": 57
+            }
+          }
+        },
+        "AdminTableOneResp": {
+          "fields": {
+            "code": {
+              "type": "uint32",
+              "id": 1
+            },
+            "msg": {
+              "type": "string",
+              "id": 2
+            },
+            "data": {
+              "type": "AdminTableRow",
+              "id": 3
+            }
+          }
+        },
+        "AdminTableListResp": {
+          "fields": {
+            "code": {
+              "type": "uint32",
+              "id": 1
+            },
+            "msg": {
+              "type": "string",
+              "id": 2
+            },
+            "total": {
+              "type": "uint32",
+              "id": 3
+            },
+            "rows": {
+              "rule": "repeated",
+              "type": "AdminTableRow",
               "id": 4
             }
           }
@@ -1346,7 +1849,7 @@
             },
             "axisData": {
               "rule": "repeated",
-              "type": "uint32",
+              "type": "string",
               "id": 3
             },
             "expectedData": {
@@ -1358,6 +1861,62 @@
               "rule": "repeated",
               "type": "uint32",
               "id": 5
+            }
+          }
+        },
+        "DashboardChartItem": {
+          "fields": {
+            "name": {
+              "type": "string",
+              "id": 1
+            },
+            "value": {
+              "type": "uint32",
+              "id": 2
+            }
+          }
+        },
+        "DashboardAccessResp": {
+          "fields": {
+            "code": {
+              "type": "uint32",
+              "id": 1
+            },
+            "msg": {
+              "type": "string",
+              "id": 2
+            },
+            "legend": {
+              "rule": "repeated",
+              "type": "string",
+              "id": 3
+            },
+            "inner": {
+              "rule": "repeated",
+              "type": "DashboardChartItem",
+              "id": 4
+            },
+            "out": {
+              "rule": "repeated",
+              "type": "DashboardChartItem",
+              "id": 5
+            }
+          }
+        },
+        "DashboardSpiderResp": {
+          "fields": {
+            "code": {
+              "type": "uint32",
+              "id": 1
+            },
+            "msg": {
+              "type": "string",
+              "id": 2
+            },
+            "data": {
+              "rule": "repeated",
+              "type": "DashboardChartItem",
+              "id": 3
             }
           }
         },
@@ -1496,6 +2055,10 @@
               "rule": "repeated",
               "type": "string",
               "id": 3
+            },
+            "total": {
+              "type": "uint32",
+              "id": 4
             }
           }
         }

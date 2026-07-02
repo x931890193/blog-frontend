@@ -106,6 +106,7 @@ import { mapActions, mapState } from 'vuex'
 import { userTag } from '@/utils/constants'
 import Detail from './components/detail.vue'
 import resourceAPI from '@/api/resource'
+import { getToken } from '@/utils/auth'
 export default {
   name: 'UserInfo',
   components: {
@@ -128,9 +129,20 @@ export default {
   computed: {
     ...mapState('user', ['username', 'haslogin', 'avatar', 'userInfo'])
   },
+  async created() {
+    if (this.$route.query.oauth === 'failed') {
+      this.$message.error('GitHub 登录失败，请重新登录')
+      return
+    }
+    if (!this.haslogin && getToken()) {
+      await this.getInfo().catch(err => {
+        this.$message.error(err.message || err)
+      })
+    }
+  },
   methods: {
     // 事件处理器
-    ...mapActions('user', ['edit']),
+    ...mapActions('user', ['edit', 'getInfo']),
     selectHandle() {
       this.$refs.picker && this.$refs.picker.click()
     },
