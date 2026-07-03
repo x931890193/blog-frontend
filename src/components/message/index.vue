@@ -72,12 +72,20 @@
               </header>
               <section>
                 <p v-html="analyzeEmoji(item.content)" />
-                <div
-                  v-if="haslogin"
-                  class="tmsg-replay"
-                  @click="respondMsg($event, { leaveIndex: index, pIndex: -1, pid: item._id })"
-                >
-                  回复
+                <div class="tmsg-actions">
+                  <button type="button" class="comment-vote" @click="voteComment(item, 'good')">
+                    <i class="fa fa-thumbs-o-up" /> {{ item.good || 0 }}
+                  </button>
+                  <button type="button" class="comment-vote" @click="voteComment(item, 'bad')">
+                    <i class="fa fa-thumbs-o-down" /> {{ item.bad || 0 }}
+                  </button>
+                  <button
+                    type="button"
+                    class="tmsg-replay"
+                    @click="respondMsg($event, { leaveIndex: index, pIndex: -1, pid: item._id })"
+                  >
+                    回复
+                  </button>
                 </div>
               </section>
             </article>
@@ -112,12 +120,20 @@
                     <p v-html="analyzeEmoji(citem.content)">
                       {{ citem.content }}
                     </p>
-                    <div
-                      v-show="haslogin"
-                      class="tmsg-replay"
-                      @click="respondMsg($event, {leaveIndex: index, pIndex: cindex, pid: citem._id})"
-                    >
-                      回复
+                    <div class="tmsg-actions">
+                      <button type="button" class="comment-vote" @click="voteComment(citem, 'good')">
+                        <i class="fa fa-thumbs-o-up" /> {{ citem.good || 0 }}
+                      </button>
+                      <button type="button" class="comment-vote" @click="voteComment(citem, 'bad')">
+                        <i class="fa fa-thumbs-o-down" /> {{ citem.bad || 0 }}
+                      </button>
+                      <button
+                        type="button"
+                        class="tmsg-replay"
+                        @click="respondMsg($event, {leaveIndex: index, pIndex: cindex, pid: citem._id})"
+                      >
+                        回复
+                      </button>
                     </div>
                   </section>
                 </article>
@@ -152,12 +168,13 @@
                         <p v-html="analyzeEmoji(ccitem.content)">
                           {{ ccitem.content }}
                         </p>
-                        <div
-                          v-show="false"
-                          class="tmsg-replay"
-                          @click="respondMsg($event, {leaveIndex: index, pIndex: cindex, ppIndex:ccindex, pid: ccitem._id})"
-                        >
-                          回复
+                        <div class="tmsg-actions">
+                          <button type="button" class="comment-vote" @click="voteComment(ccitem, 'good')">
+                            <i class="fa fa-thumbs-o-up" /> {{ ccitem.good || 0 }}
+                          </button>
+                          <button type="button" class="comment-vote" @click="voteComment(ccitem, 'bad')">
+                            <i class="fa fa-thumbs-o-down" /> {{ ccitem.bad || 0 }}
+                          </button>
                         </div>
                       </section>
                     </article>
@@ -179,7 +196,6 @@ import Marked from 'marked'
 import commentAPI from '@/api/comment'
 import { OwOlist } from '@/utils/constants'
 import { analyzeEmoji } from '@/utils'
-import { mapState } from 'vuex'
 import { initDate } from '@/utils/index.js'
 import AButton from '@/components/abutton'
 import xss from 'xss'
@@ -215,10 +231,6 @@ export default {
       required: true
     }
   },
-  computed: {
-    ...mapState('user', ['haslogin'])
-  },
-  // eslint-disable-next-line vue/order-in-components
   data() {
     // 选项 / 数据
     return {
@@ -322,6 +334,34 @@ export default {
         this.pIndex = pIndex
         this.ppIndex = ppIndex
         this.pid = pid
+      }
+    },
+    async voteComment(comment, type) {
+      const id = comment && comment._id
+      if (!id) return
+      const key = `comment_vote_${id}_${type}`
+      if (localStorage.getItem(key)) {
+        Message({
+          message: '已经投过票了',
+          duration: 2000
+        })
+        return
+      }
+      try {
+        const res = await commentAPI.vote({ id, type })
+        localStorage.setItem(key, '1')
+        if (res.data) {
+          this.$set(comment, 'good', res.data.good || 0)
+          this.$set(comment, 'bad', res.data.bad || 0)
+        } else {
+          this.$set(comment, type, (Number(comment[type]) || 0) + 1)
+        }
+      } catch (error) {
+        Message({
+          message: '操作失败，请稍后再试',
+          type: 'error',
+          duration: 3000
+        })
       }
     },
     removeRespond() {
@@ -1031,12 +1071,30 @@ export default {
 // .tmsg-c-item article section p img {
 //   vertical-align: middle;
 // }
-.tmsg-c-item article section .tmsg-replay {
-  margin: 10px 0;
+.tmsg-c-item article section .tmsg-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 10px 0 0;
+}
+.tmsg-c-item article section .tmsg-replay,
+.tmsg-c-item article section .comment-vote {
+  border: 0;
+  background: transparent;
+  padding: 0;
   font-size: 12px;
   color: #267c89;
   cursor: pointer;
   font-weight: 600;
+  line-height: 20px;
+}
+.tmsg-c-item article section .comment-vote {
+  color: #64748b;
+}
+.tmsg-c-item article section .comment-vote:hover,
+.tmsg-c-item article section .tmsg-replay:hover {
+  color: #e85d75;
 }
 </style>
 <style>

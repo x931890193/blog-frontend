@@ -46,6 +46,12 @@ service.interceptors.response.use(
   },
   (error) => {
     console.log('err' + error) // for debug
+    if (error.response && error.response.status === 451) {
+      if (window.location.hash !== '#/blocked') {
+        window.location.hash = '#/blocked'
+      }
+      return Promise.reject(error)
+    }
     Message({
       message: error.message,
       type: 'error',

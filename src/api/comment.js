@@ -51,6 +51,28 @@ async function add(data) {
   return res
 }
 
+async function vote(data) {
+  const buf = await request({
+    url: `${PATH}/vote`,
+    method: 'post',
+    params: {
+      id: data.id,
+      type: data.type
+    }
+  })
+  const CommentAddResp = protoRoot.lookupType('CommentAddResp')
+  const res = CommentAddResp.decode(buf)
+  if (res.code) {
+    Message({
+      message: res.msg,
+      type: 'error',
+      duration: 5 * 1000
+    })
+    return Promise.reject(new Error(res.msg || 'Error'))
+  }
+  return res
+}
+
 function getInfo(params) {
   return Promise.resolve({
     code: 0,
@@ -81,5 +103,6 @@ export default {
   getList,
   getInfo,
   add,
+  vote,
   getTopComment
 }

@@ -91,6 +91,14 @@ const router = new Router({
       }
     },
     {
+      path: '/blocked',
+      name: 'Blocked',
+      component: () => import('@/views/blocked/index'),
+      meta: {
+        title: '访问受限'
+      }
+    },
+    {
       path: '*',
       redirect: '/'
     }

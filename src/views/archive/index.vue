@@ -18,10 +18,12 @@
           'archive-class-children-item',
           item._id === tagsId && 'archive-class-children-item-selected'
         ]"
+        :style="{ borderColor: item.color || '#40b8c5' }"
       >
-        <a @click="goClassListChildren(item._id)">
+        <a :style="{ color: item.color || '#334155' }" @click="goClassListChildren(item._id)">
           {{ item.name }}
         </a>
+        <span>（{{ item.count || 0 }}）</span>
       </div>
     </div>
     <div v-for="item in articleList" :key="item.year" class="article-time">
@@ -55,8 +57,8 @@ export default {
     }
   },
   async created() {
-    this.classId = this.$route.query.classId || null
-    this.tagsId = this.$route.query.tagsId || null
+    this.classId = Number(this.$route.query.classId || 0) || null
+    this.tagsId = Number(this.$route.query.tagsId || 0) || null
     await this.getAllList(this.classId, this.tagsId)
   },
   methods: {
@@ -70,6 +72,7 @@ export default {
     },
     async goClassList(id) {
       this.classId = id
+      this.tagsId = null
       await this.getAllList(id, null)
       await this.$router.push({
         name: 'Archive',
@@ -146,6 +149,8 @@ export default {
     .archive-class-children-item {
       color: #333333;
       margin-right: 10px;
+      border-bottom: 2px solid transparent;
+      padding-bottom: 2px;
       a {
         color: #334155;
         &:hover {

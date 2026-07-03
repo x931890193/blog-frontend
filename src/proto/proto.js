@@ -349,6 +349,34 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
           id: {
             type: "uint32",
             id: 7
+          },
+          author: {
+            type: "string",
+            id: 8
+          },
+          github: {
+            type: "string",
+            id: 9
+          },
+          keywords: {
+            type: "string",
+            id: 10
+          },
+          alipayImage: {
+            type: "string",
+            id: 11
+          },
+          wechatPayImage: {
+            type: "string",
+            id: 12
+          },
+          job: {
+            type: "string",
+            id: 13
+          },
+          loveCount: {
+            type: "uint32",
+            id: 14
           }
         }
       },
@@ -389,6 +417,26 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
           title: {
             type: "string",
             id: 9
+          },
+          keywords: {
+            type: "string",
+            id: 10
+          },
+          alipayImage: {
+            type: "string",
+            id: 11
+          },
+          wechatPayImage: {
+            type: "string",
+            id: 12
+          },
+          job: {
+            type: "string",
+            id: 13
+          },
+          loveCount: {
+            type: "uint32",
+            id: 14
           }
         }
       },
@@ -1025,6 +1073,18 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
           name: {
             type: "string",
             id: 2
+          },
+          color: {
+            type: "string",
+            id: 3
+          },
+          count: {
+            type: "uint32",
+            id: 4
+          },
+          createTime: {
+            type: "string",
+            id: 5
           }
         }
       },
@@ -1151,6 +1211,14 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
           createTime: {
             type: "string",
             id: 8
+          },
+          status: {
+            type: "bool",
+            id: 9
+          },
+          verifyStatus: {
+            type: "string",
+            id: 10
           }
         }
       },
