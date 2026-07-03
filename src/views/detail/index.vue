@@ -16,6 +16,21 @@
         </div>
       </div>
     </div>
+    <transition name="auth-guide-fade">
+      <div v-if="authPromptVisible" class="auth-guide">
+        <div class="auth-guide-icon">
+          <i class="fa fa-github" />
+        </div>
+        <div class="auth-guide-copy">
+          <strong>登录后继续操作</strong>
+          <span>{{ authPromptText }}</span>
+        </div>
+        <div class="auth-guide-actions">
+          <button type="button" class="auth-guide-primary" @click="goLogin">GitHub 登录</button>
+          <button type="button" class="auth-guide-ghost" @click="closeAuthPrompt">稍后</button>
+        </div>
+      </div>
+    </transition>
     <div class="donate">
       <div class="donate-word">
         <span @click="pdonate = !pdonate">赞赏</span>
@@ -45,7 +60,6 @@
 
 <script>
 import { mapActions, mapState } from 'vuex'
-import { MessageBox } from 'element-ui'
 import articleAPI from '@/api/article'
 import likeAPI from '@/api/like'
 import { initDate } from '@/utils'
@@ -77,7 +91,10 @@ export default {
       id: '',
       title: '',
       wechatImage: '',
-      aliPayImage: ''
+      aliPayImage: '',
+      authPromptVisible: false,
+      authPromptText: '',
+      authPromptTimer: null
     }
   },
   computed: {
@@ -91,6 +108,9 @@ export default {
     // 生命周期函数
     await this.routeChange()
     await this.getReward()
+  },
+  beforeDestroy() {
+    this.authPromptTimer && clearTimeout(this.authPromptTimer)
   },
   methods: {
     // 事件处理器
@@ -133,22 +153,24 @@ export default {
           await this.getInfo(this.id)
         }
       } else {
-        // 未登录 前去登录。
-        MessageBox.confirm('登录后即可点赞和收藏，是否前往登录页面?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        })
-          .then(() => {
-            // 确定，跳转至登录页面
-            // 储存当前页面路径，登录成功后跳回来
-            localStorage.setItem('logUrl', this.$route.fullPath)
-            this.login()
-          })
-          .catch(() => {
-            // 取消关闭弹窗
-          })
+        this.showAuthPrompt(islike)
       }
+    },
+    showAuthPrompt(islike) {
+      this.authPromptText = islike === 1 ? '登录后可以给文章点赞，回来仍然停在当前文章。' : '登录后可以收藏文章，之后在个人菜单里随时查看。'
+      this.authPromptVisible = true
+      this.authPromptTimer && clearTimeout(this.authPromptTimer)
+      this.authPromptTimer = setTimeout(() => {
+        this.authPromptVisible = false
+      }, 8000)
+    },
+    closeAuthPrompt() {
+      this.authPromptVisible = false
+      this.authPromptTimer && clearTimeout(this.authPromptTimer)
+    },
+    goLogin() {
+      localStorage.setItem('logUrl', this.$route.fullPath)
+      this.login()
     },
     async getInfo(id) {
       try {
@@ -223,6 +245,84 @@ export default {
   color: #fff;
   background: #40b8c5;
   border-color: #40b8c5;
+}
+.auth-guide {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 18px 0 8px auto;
+  max-width: 560px;
+  padding: 14px 16px;
+  border: 1px solid rgba(64, 184, 197, 0.2);
+  border-radius: 8px;
+  background: linear-gradient(135deg, #f7fcfd 0%, #fff9fb 100%);
+  box-shadow: 0 16px 34px rgba(15, 23, 42, 0.08);
+}
+.auth-guide-icon {
+  flex: 0 0 38px;
+  width: 38px;
+  height: 38px;
+  line-height: 38px;
+  text-align: center;
+  color: #fff;
+  border-radius: 50%;
+  background: #111827;
+  box-shadow: 0 10px 20px rgba(15, 23, 42, 0.16);
+}
+.auth-guide-copy {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.auth-guide-copy strong {
+  display: block;
+  margin-bottom: 4px;
+  color: #111827;
+  font-size: 15px;
+}
+.auth-guide-copy span {
+  display: block;
+  color: #64748b;
+  font-size: 13px;
+  line-height: 1.6;
+}
+.auth-guide-actions {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.auth-guide button {
+  height: 34px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 0;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+.auth-guide-primary {
+  color: #fff;
+  background: #40b8c5;
+}
+.auth-guide-primary:hover {
+  background: #267c89;
+}
+.auth-guide-ghost {
+  color: #64748b;
+  background: transparent;
+}
+.auth-guide-ghost:hover {
+  color: #111827;
+  background: rgba(15, 23, 42, 0.06);
+}
+.auth-guide-fade-enter-active,
+.auth-guide-fade-leave-active {
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.auth-guide-fade-enter,
+.auth-guide-fade-leave-to {
+  opacity: 0;
+  transform: translateY(-6px);
 }
 
 /*赞赏*/
@@ -309,6 +409,14 @@ export default {
   }
   .dshareBox {
     justify-content: center;
+  }
+  .auth-guide {
+    flex-wrap: wrap;
+    margin-right: 0;
+  }
+  .auth-guide-actions {
+    width: 100%;
+    justify-content: flex-start;
   }
 }
 </style>

@@ -6,6 +6,21 @@
         发表评论
         <small v-show="isRespond" class="tcolorm" @click="removeRespond">取消回复</small>
       </h3>
+      <transition name="comment-auth-fade">
+        <div v-if="loginTipVisible" class="comment-auth-tip">
+          <div class="comment-auth-icon">
+            <i class="fa fa-github" />
+          </div>
+          <div class="comment-auth-copy">
+            <strong>登录后再发表评论</strong>
+            <span>授权完成后会回到当前页面，刚才输入的内容不会被提交。</span>
+          </div>
+          <div class="comment-auth-actions">
+            <button type="button" class="comment-auth-primary" @click="goLogin">GitHub 登录</button>
+            <button type="button" class="comment-auth-ghost" @click="closeLoginTip">稍后</button>
+          </div>
+        </div>
+      </transition>
       <form class="" @submit.prevent>
         <el-input
           v-model="textarea"
@@ -240,7 +255,9 @@ export default {
       current: 1,
       total: 0,
       totalPage: 0,
-      sending: false
+      sending: false,
+      loginTipVisible: false,
+      loginTipTimer: null
     }
   },
   watch: {
@@ -253,6 +270,9 @@ export default {
   async mounted() {
     // 页面加载完成后
     await this.routeChange()
+  },
+  beforeDestroy() {
+    this.loginTipTimer && clearTimeout(this.loginTipTimer)
   },
   methods: {
     // 事件处理器
@@ -268,6 +288,10 @@ export default {
     // 发送留言
     async sendMsg() {
       if (this.sending) return
+      if (!this.haslogin) {
+        this.showLoginTip()
+        return
+      }
       if (this.textarea && this.textarea.trim()) {
         const content = xss(this.textarea.trim())
         this.sending = true
@@ -311,6 +335,21 @@ export default {
           clearTimeout(timer)
         }, 3000)
       }
+    },
+    showLoginTip() {
+      this.loginTipVisible = true
+      this.loginTipTimer && clearTimeout(this.loginTipTimer)
+      this.loginTipTimer = setTimeout(() => {
+        this.loginTipVisible = false
+      }, 8000)
+    },
+    closeLoginTip() {
+      this.loginTipVisible = false
+      this.loginTipTimer && clearTimeout(this.loginTipTimer)
+    },
+    goLogin() {
+      localStorage.setItem('logUrl', this.$route.fullPath)
+      this.login()
     },
     async respondMsg(event, { leaveIndex, pIndex, ppIndex, pid }) {
       // 回复留言
@@ -443,6 +482,83 @@ export default {
 .tmsg-respond h3 small {
   font-size: smaller;
   cursor: pointer;
+}
+.comment-auth-tip {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 0 0 14px;
+  padding: 14px 16px;
+  border: 1px solid rgba(64, 184, 197, 0.2);
+  border-radius: 8px;
+  background: linear-gradient(135deg, #f7fcfd 0%, #fff9fb 100%);
+  box-shadow: 0 16px 34px rgba(15, 23, 42, 0.08);
+}
+.comment-auth-icon {
+  flex: 0 0 38px;
+  width: 38px;
+  height: 38px;
+  line-height: 38px;
+  text-align: center;
+  color: #fff;
+  border-radius: 50%;
+  background: #111827;
+  box-shadow: 0 10px 20px rgba(15, 23, 42, 0.16);
+}
+.comment-auth-copy {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.comment-auth-copy strong {
+  display: block;
+  margin-bottom: 4px;
+  color: #111827;
+  font-size: 15px;
+}
+.comment-auth-copy span {
+  display: block;
+  color: #64748b;
+  font-size: 13px;
+  line-height: 1.6;
+}
+.comment-auth-actions {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.comment-auth-tip button {
+  height: 34px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+.comment-auth-primary {
+  color: #fff;
+  background: #40b8c5;
+}
+.comment-auth-primary:hover {
+  background: #267c89;
+}
+.comment-auth-ghost {
+  color: #64748b;
+  background: transparent;
+}
+.comment-auth-ghost:hover {
+  color: #111827;
+  background: rgba(15, 23, 42, 0.06);
+}
+.comment-auth-fade-enter-active,
+.comment-auth-fade-leave-active {
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.comment-auth-fade-enter,
+.comment-auth-fade-leave-to {
+  opacity: 0;
+  transform: translateY(-6px);
 }
 .tmsg-respond textarea {
   background: #f8fafc;
@@ -1038,6 +1154,15 @@ export default {
   color: #267c89;
   cursor: pointer;
   font-weight: 600;
+}
+@media screen and (max-width: 800px) {
+  .comment-auth-tip {
+    flex-wrap: wrap;
+  }
+  .comment-auth-actions {
+    width: 100%;
+    justify-content: flex-start;
+  }
 }
 </style>
 <style>
