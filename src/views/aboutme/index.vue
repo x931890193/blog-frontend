@@ -4,16 +4,19 @@
     <div class="tcommonBox aboutme-markdown">
       <Content :content="descriptions" />
     </div>
+    <Message id="aboutme" />
   </div>
 </template>
 
 <script>
 import siteApi from '@/api/siteinfo'
 import Content from '@/components/content'
+import Message from '@/components/message'
 
 export default {
   components: {
-    Content
+    Content,
+    Message
   },
   data() {
     return {
